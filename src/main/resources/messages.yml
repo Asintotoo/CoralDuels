@@ -14,6 +14,8 @@ error:
   arena-list-empty: "&7[&c!&7] &r&cNon ci sono arene registrate"
   no-positions: "&7[&c!&7] &r&cNon hai posizioni attualmente selezionate, utilizza la Bacchetta delle Arene per selezionarle"
   different-world-location: "&7[&c!&7] &r&cLe posizioni selezionate devono essere nello stesso mondo"
+  player-offline: "&7[&c!&7] &r&cIl Giocatore indicato è offline o non esiste"
+  self-duel: "&7[&c!&7] &r&cNon puoi duellare te stesso"
 
 admin:
   reload: "%prefix% &r&aPlugin ricaricato"
@@ -28,3 +30,12 @@ admin:
     list: "&e%name%: &r%status%"
     avaiable: "&aAvaiable"
     not-avaiable: "&cNot Avaiable"
+
+player:
+  duel:
+    usage: "&c/duel <name>"
+    request-sent: "%prefix% &r&aHai inviato una richiesta di duello a &r&e%player%"
+    request-message: "%prefix% &r&e%sender% &r&ati ha inviato una richiesta di duello, clicca qui per accettare"
+    request-hover-message: "&eClicca qui per accettare"
+    request-expired-sender: "%prefix% &r&cLa tua richiesta di duello per %player% è scaduta"
+    request-expired-target: "%prefix% &r&cLa tua richiesta di duello da parte di %player% è scaduta"

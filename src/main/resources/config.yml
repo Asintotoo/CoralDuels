@@ -11,6 +11,20 @@ database:
   user: "root"
   password: ""
 
+duel:
+  request-expire-time: 30 # seconds
+  block-commands: true
+  commands-to-block:
+    - "spawn"
+    - "shop"
+    - "tpaccept"
+    - "home"
+    - "warp"
+    - "tpa"
+    - "tpahere"
+  allow-block-destruction: false
+  allow-block-placement: false
+
 
 arena-wand:
   item: "STONE_AXE"

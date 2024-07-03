@@ -10,3 +10,6 @@ commands:
   duel:
     description: Main Command
     permission: coralduels.use
+  duelaccept:
+    description: Command to accept a duel
+    permission: coreduels.accept

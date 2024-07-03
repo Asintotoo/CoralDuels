@@ -26,6 +26,7 @@ public final class CoralDuels extends JavaPlugin {
     private DatabaseManager dataManager;
     private ArenaManager arenaManager;
     private WandManager wandManager;
+    private RequestManager requestManager;
 
     @Override
     public void onEnable() {
@@ -65,6 +66,7 @@ public final class CoralDuels extends JavaPlugin {
 
         arenaManager = new ArenaManager(this);
         wandManager = new WandManager(this);
+        requestManager = new RequestManager(this);
 
         arenaManager.init();
 
@@ -146,5 +148,9 @@ public final class CoralDuels extends JavaPlugin {
 
     public WandManager getWandManager() {
         return wandManager;
+    }
+
+    public RequestManager getRequestManager() {
+        return requestManager;
     }
 }
