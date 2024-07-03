@@ -1,0 +1,7 @@
+system:
+  on-enable: "%prefix% &r&aPlugin caricato con successo!"
+  on-disable: "%prefix% &r&cPlugin disabilitato con successo!"
+
+error:
+  database-error: "&7[&c!&7] &cImpossibile connettersi al database, provare più tardi."
+  invalid-database-type: "&7[&a!&7] &cImpossibile interpretare tipo di database. Assicurati di aver inserito un tipo valido nel config.yml"

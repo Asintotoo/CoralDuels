@@ -1,0 +1,12 @@
+general:
+  prefix: "&b&lCoral&f&lDuels&r"
+  debug: false
+
+database:
+  # sqlite | mysql
+  type: "sqlite"
+  database-name: "storage"
+  ip-address: "localhost"
+  port: 3306
+  user: "root"
+  password: ""

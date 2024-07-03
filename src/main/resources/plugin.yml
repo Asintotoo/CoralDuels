@@ -1,0 +1,12 @@
+name: CoralDuels
+version: '${project.version}'
+main: com.asintoto.coralduels.CoralDuels
+api-version: '1.19'
+author: Asintoto
+commands:
+  dueladmin:
+    description: Main Admin Command
+    permission: coralduels.admin
+  duel:
+    description: Main Command
+    permission: coralduels.use
