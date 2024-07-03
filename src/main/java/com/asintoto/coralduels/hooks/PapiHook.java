@@ -76,7 +76,7 @@ public class PapiHook extends PlaceholderExpansion {
                 }
             }
 
-            if(params.contains("kills")) {
+            if(params.contains("death")) {
                 if(params.contains("value")) {
                     return plugin.getDataManager().getLeaderboardDeathsCount(topPos);
                 } else if(params.contains("player")) {
@@ -84,11 +84,19 @@ public class PapiHook extends PlaceholderExpansion {
                 }
             }
 
-            if(params.contains("death")) {
+            if(params.contains("kills")) {
                 if(params.contains("value")) {
                     return plugin.getDataManager().getLeaderboardKillsCount(topPos);
                 } else if(params.contains("player")) {
                     return plugin.getDataManager().getLeaderboardKillsPlayer(topPos);
+                }
+            }
+
+            if(params.contains("wins")) {
+                if(params.contains("value")) {
+                    return plugin.getDataManager().getLeaderboardWinsCount(topPos);
+                } else if(params.contains("player")) {
+                    return plugin.getDataManager().getLeaderboardWinsPlayer(topPos);
                 }
             }
         }
@@ -101,8 +109,9 @@ public class PapiHook extends PlaceholderExpansion {
                 .replace("_value", "")
                 .replace("_name", "")
                 .replace("_games", "")
-                .replace("kills", "")
-                .replace("deaths", "");
+                .replace("_kills", "")
+                .replace("_deaths", "")
+                .replace("_wins", "");
 
         if(Manager.isValidInteger(s)) {
             return Integer.parseInt(s);

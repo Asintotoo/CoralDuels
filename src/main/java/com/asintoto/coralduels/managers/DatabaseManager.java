@@ -48,7 +48,8 @@ public class DatabaseManager {
                     username TEXT NOT NULL,
                     games INTEGER NOT NULL DEFAULT 0,
                     kills INTEGER NOT NULL DEFAULT 0,
-                    deaths INTEGER NOT NULL DEFAULT 0)
+                    deaths INTEGER NOT NULL DEFAULT 0,
+                    wins INTEGER NOT NULL DEFAULT 0)
                     """);
         }
     }
@@ -202,6 +203,38 @@ public class DatabaseManager {
         return 0;
     }
 
+    public int getWins(Player player) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT wins FROM players WHERE uuid = ?")) {
+            preparedStatement.setString(1, player.getUniqueId().toString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("wins");
+            }
+        }catch (SQLException e) {
+            String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public int getWins(String name) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT wins FROM players WHERE username = ?")) {
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("wins");
+            }
+        }catch (SQLException e) {
+            String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
     public void setGames(Player player, int b){
 
         if (!playerExists(player)) {
@@ -253,6 +286,23 @@ public class DatabaseManager {
         }
     }
 
+    public void setWins(Player player, int b){
+
+        if (!playerExists(player)) {
+            addPlayer(player);
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE players SET wins = ? WHERE uuid = ?")) {
+            preparedStatement.setInt(1, b);
+            preparedStatement.setString(2, player.getUniqueId().toString());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
+            e.printStackTrace();
+        }
+    }
+
     public void addGames(Player p, int b) {
         int current = getGames(p);
 
@@ -275,6 +325,14 @@ public class DatabaseManager {
         if(b < 0) b = 0;
 
         setDeaths(p, current + b);
+    }
+
+    public void addWins(Player p, int b) {
+        int current = getWins(p);
+
+        if(b < 0) b = 0;
+
+        setWins(p, current + b);
     }
 
     public void removeGames(Player p, int b) {
@@ -301,6 +359,14 @@ public class DatabaseManager {
         setDeaths(p, current - b);
     }
 
+    public void removeWins(Player p, int b) {
+        int current = getWins(p);
+
+        if(b > 0) b = 0;
+
+        setWins(p, current - b);
+    }
+
     public void resetGames(Player p) {
         setGames(p, 0);
     }
@@ -313,10 +379,15 @@ public class DatabaseManager {
         setDeaths(p, 0);
     }
 
+    public void resetWins(Player p) {
+        setWins(p, 0);
+    }
+
     public void resetAllStats(Player p) {
         resetGames(p);
         resetKills(p);
         resetDeaths(p);
+        resetWins(p);
     }
 
     public String getLeaderboardGamesPlayer(int pos){
@@ -441,6 +512,50 @@ public class DatabaseManager {
                     return "--";
                 }
                 return Integer.toString(deaths);
+            }
+        } catch (SQLException e) {
+            String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
+            e.printStackTrace();
+        }
+
+        return "--";
+    }
+
+    public String getLeaderboardWinsPlayer(int pos){
+        String query = "SELECT username FROM players ORDER BY wins DESC LIMIT 1 OFFSET ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, pos - 1);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String username = resultSet.getString("username");
+                if(getWins(username) == 0) {
+                    return "--";
+                }
+                return username;
+            }
+        } catch (SQLException e) {
+            String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
+            e.printStackTrace();
+        }
+
+        return "--";
+    }
+
+    public String getLeaderboardWinsCount(int pos){
+        String query = "SELECT wins FROM players ORDER BY wins DESC LIMIT 1 OFFSET ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, pos - 1);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int wins = resultSet.getInt("deaths");
+                if(wins == 0) {
+                    return "--";
+                }
+                return Integer.toString(wins);
             }
         } catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");

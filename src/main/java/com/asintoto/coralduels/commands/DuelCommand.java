@@ -1,6 +1,7 @@
 package com.asintoto.coralduels.commands;
 
 import com.asintoto.coralduels.CoralDuels;
+import com.asintoto.coralduels.enums.PlayerStatus;
 import com.asintoto.coralduels.managers.Manager;
 import com.asintoto.coralduels.utils.DuelRequest;
 import org.bukkit.Bukkit;
@@ -48,6 +49,14 @@ public class DuelCommand implements CommandExecutor {
 
             if(plugin.getRequestManager().hasRequestFrom(target, (Player) sender)) {
                 String msg = plugin.getMessages().getString("error.request-already-existing")
+                        .replace("%player%", target.getName());
+                sender.sendMessage(Manager.formatMessage(msg));
+                return true;
+            }
+
+            if(plugin.getGameManager().getPlayerStatus(target) == PlayerStatus.IN_GAME ||
+                    plugin.getGameManager().getPlayerStatus(target) == PlayerStatus.STARTING) {
+                String msg = plugin.getMessages().getString("error.already-in-duel")
                         .replace("%player%", target.getName());
                 sender.sendMessage(Manager.formatMessage(msg));
                 return true;

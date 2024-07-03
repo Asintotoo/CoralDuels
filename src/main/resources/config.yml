@@ -15,17 +15,18 @@ duel:
   request-expire-time: 30 # seconds
   block-commands: true
   commands-to-block:
-    - "spawn"
-    - "shop"
-    - "tpaccept"
-    - "home"
-    - "warp"
-    - "tpa"
-    - "tpahere"
-    - "duel"
-    - "duelaccept"
+    - "/spawn"
+    - "/shop"
+    - "/tpaccept"
+    - "/home"
+    - "/warp"
+    - "/tpa"
+    - "/tpahere"
+    - "/duel"
+    - "/duelaccept"
   allow-block-destruction: false
   allow-block-placement: false
+  countdown-duration: 3
 
 
 arena-wand:

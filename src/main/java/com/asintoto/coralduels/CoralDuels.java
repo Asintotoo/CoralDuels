@@ -5,6 +5,7 @@ import com.asintoto.coralduels.commands.DuelAcceptCommand;
 import com.asintoto.coralduels.commands.DuelAdminCommand;
 import com.asintoto.coralduels.commands.DuelCommand;
 import com.asintoto.coralduels.hooks.PapiHook;
+import com.asintoto.coralduels.listeners.GameListener;
 import com.asintoto.coralduels.listeners.WandClickListener;
 import com.asintoto.coralduels.managers.*;
 import com.asintoto.coralduels.tabcompleters.DuelAdminTabCompleter;
@@ -28,6 +29,7 @@ public final class CoralDuels extends JavaPlugin {
     private ArenaManager arenaManager;
     private WandManager wandManager;
     private RequestManager requestManager;
+    private GameManager gameManager;
 
     @Override
     public void onEnable() {
@@ -65,11 +67,15 @@ public final class CoralDuels extends JavaPlugin {
         Debug.log("&aComandi inizializzati");
 
         getServer().getPluginManager().registerEvents(new WandClickListener(this), this);
+        getServer().getPluginManager().registerEvents(new GameListener(this), this);
+
+
         Debug.log("&aEventi registrati");
 
         arenaManager = new ArenaManager(this);
         wandManager = new WandManager(this);
         requestManager = new RequestManager(this);
+        gameManager = new GameManager(this);
 
         arenaManager.init();
 
@@ -137,6 +143,7 @@ public final class CoralDuels extends JavaPlugin {
         this.rewards = YamlManager.reloadYamlConfiguration("rewards.yml");
 
         this.prefix = ColorLib.setColors(getConfig().getString("general.prefix"));
+        GameListener.reloadBlockedCommand();
 
         Debug.log("&aReload effettuato");
     }
@@ -155,5 +162,9 @@ public final class CoralDuels extends JavaPlugin {
 
     public RequestManager getRequestManager() {
         return requestManager;
+    }
+
+    public GameManager getGameManager() {
+        return gameManager;
     }
 }

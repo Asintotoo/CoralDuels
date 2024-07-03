@@ -1,9 +1,11 @@
 package com.asintoto.coralduels.managers;
 
 import com.asintoto.coralduels.CoralDuels;
+import com.asintoto.coralduels.enums.PlayerStatus;
 import com.asintoto.coralduels.utils.Arena;
 import com.asintoto.coralduels.utils.Debug;
 import com.asintoto.coralduels.utils.DuelRequest;
+import com.asintoto.coralduels.utils.Game;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
@@ -94,6 +96,13 @@ public class RequestManager {
 
         a.teleport(sender, target);
         a.setHasPlayer(true);
+
+        new Game(a, sender, target);
+
+        plugin.getGameManager().setPlayerStatus(sender, PlayerStatus.STARTING);
+        plugin.getGameManager().setPlayerStatus(target, PlayerStatus.STARTING);
+
+        plugin.getGameManager().gameCountdown(sender, target);
 
     }
 }

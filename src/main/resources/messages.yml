@@ -19,6 +19,8 @@ error:
   no-request-from-player: "&7[&c!&7] &r&cNon hai nessuna richiesta di duello da parte di %player%"
   request-already-existing: "&7[&c!&7] &r&c%player% ha già una richiesta di duello da parte tua"
   no-arena-avaiable: "&7[&c!&7] &r&cDuello annullato! Nessuna arena disponibile. Riprovare più tardi"
+  already-in-duel: "&7[&c!&7] &r&c%player% è attualmente in un duello"
+  blocked-command: "&7[&c!&7] &r&cNon puoi eseguire questo comando mentre sei in duello"
 
 admin:
   reload: "%prefix% &r&aPlugin ricaricato"
@@ -45,3 +47,8 @@ player:
     request-expired-target: "%prefix% &r&cLa tua richiesta di duello da parte di %player% è scaduta"
     accept-sender: "%prefix% &r&e%player% &aha accettato la tua richiesta di duello"
     accept-target: "%prefix% &r&ahai accettato la tua richiesta di duello di &e%player%"
+    duel-lost: "%prefix% &r&cHai perso il duello contro &e%player%"
+    duel-win: "%prefix% &r&aHai vinto il duello contro &e%player%"
+  countdown:
+    numbers: "&c%number%"
+    go: "&a&lVia!"
