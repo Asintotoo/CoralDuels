@@ -5,3 +5,24 @@ system:
 error:
   database-error: "&7[&c!&7] &cImpossibile connettersi al database, provare più tardi."
   invalid-database-type: "&7[&a!&7] &cImpossibile interpretare tipo di database. Assicurati di aver inserito un tipo valido nel config.yml"
+  no-permission: "&7[&c!&7] &cNon hai il permesso di eseguire questo comando."
+  not-a-player: "&7[&c!&7] &cQuesto può essere eseguito solo dai player, tu non sei un player!"
+  full-inventory: "&7[&c!&7] &cIl tuo inventario è attualmente pieno, libera uno slot per ottenere l'oggetto"
+  not-enough-args: "&7[&c!&7] &cParametri Mancanti"
+  arena-already-exist: "&cUn' arena con questo nome esiste già"
+  arena-not-existing: "&r&cQuesta arena non esiste"
+  arena-list-empty: "&r&cNon ci sono arene registrate"
+
+admin:
+  reload: "%prefix% &rPlugin ricaricato"
+  usage: "&c/dualadmin <reload|arena|getarenawand>"
+  wand:
+    get: "%prefix% &r&aHai ottenuto la Bacchetta delle Arene"
+    first-pos: "%prefix% &r&dPrimo punto di generazione impostato"
+    second-pos: "%prefix% &r&dSecondo punto di generazione impostato"
+  arena:
+    created: "%prefix% &aArena %name% creata con successo"
+    deleted: "%prefix% &eArena %name% eliminata con successo"
+    list: "&e%name%: &r%status%"
+    avaiable: "&aAvaiable"
+    not-avaiable: "&cNot Avaiable"

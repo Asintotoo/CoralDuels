@@ -4,16 +4,14 @@ import com.asintoto.colorlib.ColorLib;
 import com.asintoto.coralduels.commands.DuelAdminCommand;
 import com.asintoto.coralduels.commands.DuelCommand;
 import com.asintoto.coralduels.hooks.PapiHook;
-import com.asintoto.coralduels.managers.ArenaManager;
-import com.asintoto.coralduels.managers.DatabaseManager;
-import com.asintoto.coralduels.managers.Manager;
-import com.asintoto.coralduels.managers.YamlManager;
+import com.asintoto.coralduels.listeners.wandClickListener;
+import com.asintoto.coralduels.managers.*;
+import com.asintoto.coralduels.tabcompleters.DuelAdminTabCompleter;
 import com.asintoto.coralduels.utils.Debug;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 
 public final class CoralDuels extends JavaPlugin {
@@ -22,11 +20,11 @@ public final class CoralDuels extends JavaPlugin {
     private YamlConfiguration kits;
     private YamlConfiguration menus;
     private YamlConfiguration rewards;
-    private YamlConfiguration arenas;
-
     private String prefix;
 
     private DatabaseManager dataManager;
+    private ArenaManager arenaManager;
+    private WandManager wandManager;
 
     @Override
     public void onEnable() {
@@ -55,9 +53,18 @@ public final class CoralDuels extends JavaPlugin {
 
         getCommand("dueladmin").setExecutor(new DuelAdminCommand(this));
         getCommand("duel").setExecutor(new DuelCommand(this));
+
+        getCommand("dueladmin").setTabCompleter(new DuelAdminTabCompleter(this));
+
         Debug.log("&aComandi inizializzati");
 
-        ArenaManager.init();
+        getServer().getPluginManager().registerEvents(new wandClickListener(this), this);
+        Debug.log("&aEventi registrati");
+
+        arenaManager = new ArenaManager(this);
+        wandManager = new WandManager(this);
+
+        arenaManager.init();
 
         String msg = messages.getString("system.on-enable");
         Manager.sendConsoleMessage(Manager.formatMessage(msg));
@@ -71,11 +78,11 @@ public final class CoralDuels extends JavaPlugin {
             dataManager.closeConnection();
         } catch (SQLException e) {
             String msg = getMessages().getString("error.database-error");
-            getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
 
-        ArenaManager.term();
+        arenaManager.term();
 
         String msg = messages.getString("system.on-disable");
         Manager.sendConsoleMessage(Manager.formatMessage(msg));
@@ -87,7 +94,6 @@ public final class CoralDuels extends JavaPlugin {
         this.menus = YamlManager.createYamlConfiguration("menus.yml");
         this.kits = YamlManager.createYamlConfiguration("kits.yml");
         this.rewards = YamlManager.createYamlConfiguration("rewards.yml");
-        this.arenas = YamlManager.createYamlConfiguration("arenas.yml");
 
         Debug.log("&aFiles caricati");
     }
@@ -112,10 +118,6 @@ public final class CoralDuels extends JavaPlugin {
         return rewards;
     }
 
-    public YamlConfiguration getArenas() {
-        return arenas;
-    }
-
     public String getPrefix() {
         return prefix;
     }
@@ -126,7 +128,6 @@ public final class CoralDuels extends JavaPlugin {
         this.menus = YamlManager.reloadYamlConfiguration("menus.yml");
         this.kits = YamlManager.reloadYamlConfiguration("kits.yml");
         this.rewards = YamlManager.reloadYamlConfiguration("rewards.yml");
-        this.arenas = YamlManager.reloadYamlConfiguration("arenas.yml");
 
         this.prefix = ColorLib.setColors(getConfig().getString("general.prefix"));
 
@@ -137,29 +138,11 @@ public final class CoralDuels extends JavaPlugin {
         return getPlugin(CoralDuels.class);
     }
 
-    public void saveArenaFile() {
-        File file = new File(getDataFolder(), "arenas.yml");
-        try {
-            arenas.save(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public ArenaManager getArenaManager() {
+        return arenaManager;
     }
 
-    public void resetArenaFile() {
-        File file = new File(getDataFolder(), "arenas.yml");
-
-        try {
-            if(file.exists()) {
-                file.delete();
-            }
-
-            file.createNewFile();
-
-            this.arenas = YamlConfiguration.loadConfiguration(file);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public WandManager getWandManager() {
+        return wandManager;
     }
 }

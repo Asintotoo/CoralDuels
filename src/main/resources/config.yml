@@ -1,5 +1,5 @@
 general:
-  prefix: "&b&lCoral&f&lDuels&r"
+  prefix: "&b&lCoral&f&lDuels&r &r&8>>&r"
   debug: false
 
 database:
@@ -10,3 +10,16 @@ database:
   port: 3306
   user: "root"
   password: ""
+
+
+arena-wand:
+  item: "STONE_AXE"
+  name: "&cArena Wand"
+  lore:
+    - ""
+    - "&7Usa questo oggetto per"
+    - "&7selezionare i due punti"
+    - "&7di generazione dei giocatori"
+    - "&7in questa arena."
+    - ""
+  glow: true

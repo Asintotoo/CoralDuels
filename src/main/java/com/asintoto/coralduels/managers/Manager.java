@@ -2,7 +2,18 @@ package com.asintoto.coralduels.managers;
 
 import com.asintoto.colorlib.ColorLib;
 import com.asintoto.coralduels.CoralDuels;
+import com.asintoto.coralduels.utils.Keys;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Manager {
 

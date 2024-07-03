@@ -1,5 +1,6 @@
 package com.asintoto.coralduels.utils;
 
+import com.asintoto.coralduels.CoralDuels;
 import com.asintoto.coralduels.managers.ArenaManager;
 import org.bukkit.Location;
 
@@ -15,7 +16,7 @@ public class Arena {
         this.hasPlayer = false;
         this.name = name;
 
-        ArenaManager.addArena(this);
+        CoralDuels.getInstance().getArenaManager().addArena(this);
     }
 
     public Location getLoc1() {

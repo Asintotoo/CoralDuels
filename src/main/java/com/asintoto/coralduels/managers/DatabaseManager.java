@@ -36,7 +36,7 @@ public class DatabaseManager {
             } else {
                 connection = null;
                 String msg = CoralDuels.getInstance().getMessages().getString("error.invalid-database-type");
-                Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+                Manager.sendConsoleMessage(Manager.formatMessage(msg));
                 Bukkit.getServer().getPluginManager().disablePlugin(CoralDuels.getInstance());
             }
         }
@@ -75,7 +75,7 @@ public class DatabaseManager {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
     }
@@ -87,7 +87,7 @@ public class DatabaseManager {
             return resultSet.next();
         }catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
             return false;
         }
@@ -100,7 +100,7 @@ public class DatabaseManager {
             return resultSet.next();
         }catch (SQLException e) {
         String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-        Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+        Manager.sendConsoleMessage(Manager.formatMessage(msg));
         e.printStackTrace();
         return false;
     }
@@ -115,7 +115,7 @@ public class DatabaseManager {
             }
         }catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
 
@@ -131,7 +131,7 @@ public class DatabaseManager {
             }
         }catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
 
@@ -147,7 +147,7 @@ public class DatabaseManager {
             }
         }catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
 
@@ -163,7 +163,7 @@ public class DatabaseManager {
             }
         }catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
 
@@ -179,7 +179,7 @@ public class DatabaseManager {
             }
         }catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
 
@@ -195,7 +195,7 @@ public class DatabaseManager {
             }
         }catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
 
@@ -214,7 +214,7 @@ public class DatabaseManager {
             preparedStatement.executeUpdate();
         }catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
     }
@@ -231,7 +231,7 @@ public class DatabaseManager {
             preparedStatement.executeUpdate();
         }catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
     }
@@ -248,7 +248,7 @@ public class DatabaseManager {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
     }
@@ -334,7 +334,7 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
 
@@ -356,7 +356,7 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
 
@@ -378,7 +378,7 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
 
@@ -400,7 +400,7 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
 
@@ -422,7 +422,7 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
 
@@ -444,7 +444,7 @@ public class DatabaseManager {
             }
         } catch (SQLException e) {
             String msg = CoralDuels.getInstance().getMessages().getString("error.database-error");
-            Bukkit.getServer().getConsoleSender().sendMessage(Manager.formatMessage(msg));
+            Manager.sendConsoleMessage(Manager.formatMessage(msg));
             e.printStackTrace();
         }
 
