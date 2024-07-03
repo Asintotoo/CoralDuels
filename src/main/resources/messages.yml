@@ -10,11 +10,13 @@ error:
   full-inventory: "&7[&c!&7] &cIl tuo inventario è attualmente pieno, libera uno slot per ottenere l'oggetto"
   not-enough-args: "&7[&c!&7] &cParametri Mancanti"
   arena-already-exist: "&cUn' arena con questo nome esiste già"
-  arena-not-existing: "&r&cQuesta arena non esiste"
-  arena-list-empty: "&r&cNon ci sono arene registrate"
+  arena-not-existing: "&7[&c!&7] &r&cQuesta arena non esiste"
+  arena-list-empty: "&7[&c!&7] &r&cNon ci sono arene registrate"
+  no-positions: "&7[&c!&7] &r&cNon hai posizioni attualmente selezionate, utilizza la Bacchetta delle Arene per selezionarle"
+  different-world-location: "&7[&c!&7] &r&cLe posizioni selezionate devono essere nello stesso mondo"
 
 admin:
-  reload: "%prefix% &rPlugin ricaricato"
+  reload: "%prefix% &r&aPlugin ricaricato"
   usage: "&c/dualadmin <reload|arena|getarenawand>"
   wand:
     get: "%prefix% &r&aHai ottenuto la Bacchetta delle Arene"

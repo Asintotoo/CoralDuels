@@ -103,9 +103,19 @@ public class DuelAdminCommand implements CommandExecutor {
                     Location loc1 = plugin.getWandManager().getPlayerLocationFirst().get(p);
                     Location loc2 = plugin.getWandManager().getPlayerLocationSecond().get(p);
 
+                    if(loc1.getWorld() != loc2.getWorld()) {
+                        String msg = plugin.getMessages().getString("error.different-world-location");
+                        sender.sendMessage(Manager.formatMessage(msg));
+                        return true;
+                    }
+
                     new Arena(name, loc1, loc2);
 
                     String msg = plugin.getMessages().getString("admin.arena.created").replace("%name%", name);
+                    sender.sendMessage(Manager.formatMessage(msg));
+                    return true;
+                } else {
+                    String msg = plugin.getMessages().getString("error.no-positions");
                     sender.sendMessage(Manager.formatMessage(msg));
                     return true;
                 }

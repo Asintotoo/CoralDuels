@@ -7,6 +7,7 @@ import com.asintoto.coralduels.hooks.PapiHook;
 import com.asintoto.coralduels.listeners.wandClickListener;
 import com.asintoto.coralduels.managers.*;
 import com.asintoto.coralduels.tabcompleters.DuelAdminTabCompleter;
+import com.asintoto.coralduels.tabcompleters.DuelTabCompleter;
 import com.asintoto.coralduels.utils.Debug;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -55,6 +56,7 @@ public final class CoralDuels extends JavaPlugin {
         getCommand("duel").setExecutor(new DuelCommand(this));
 
         getCommand("dueladmin").setTabCompleter(new DuelAdminTabCompleter(this));
+        getCommand("duel").setTabCompleter(new DuelTabCompleter(this));
 
         Debug.log("&aComandi inizializzati");
 
