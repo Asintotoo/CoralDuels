@@ -164,8 +164,8 @@ public class ArenaManager {
 
         for(Arena a : arenaList) {
             arena.set("arenas." + a.getName() + ".first-location.x", a.getLoc1().getX());
-            arena.set("arenas." + a.getName() + ".first-location.y", a.getLoc1().getX());
-            arena.set("arenas." + a.getName() + ".first-location.z", a.getLoc1().getX());
+            arena.set("arenas." + a.getName() + ".first-location.y", a.getLoc1().getY());
+            arena.set("arenas." + a.getName() + ".first-location.z", a.getLoc1().getZ());
 
             arena.set("arenas." + a.getName() + ".first-location.pitch", a.getLoc1().getPitch());
             arena.set("arenas." + a.getName() + ".first-location.yaw", a.getLoc1().getYaw());
@@ -173,8 +173,8 @@ public class ArenaManager {
             arena.set("arenas." + a.getName() + ".first-location.world", a.getLoc1().getWorld().getName());
 
             arena.set("arenas." + a.getName() + ".second-location.x", a.getLoc2().getX());
-            arena.set("arenas." + a.getName() + ".second-location.y", a.getLoc2().getX());
-            arena.set("arenas." + a.getName() + ".second-location.z", a.getLoc2().getX());
+            arena.set("arenas." + a.getName() + ".second-location.y", a.getLoc2().getY());
+            arena.set("arenas." + a.getName() + ".second-location.z", a.getLoc2().getZ());
 
             arena.set("arenas." + a.getName() + ".second-location.pitch", a.getLoc2().getPitch());
             arena.set("arenas." + a.getName() + ".second-location.yaw", a.getLoc2().getYaw());

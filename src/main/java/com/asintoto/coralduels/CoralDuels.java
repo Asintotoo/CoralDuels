@@ -1,10 +1,11 @@
 package com.asintoto.coralduels;
 
 import com.asintoto.colorlib.ColorLib;
+import com.asintoto.coralduels.commands.DuelAcceptCommand;
 import com.asintoto.coralduels.commands.DuelAdminCommand;
 import com.asintoto.coralduels.commands.DuelCommand;
 import com.asintoto.coralduels.hooks.PapiHook;
-import com.asintoto.coralduels.listeners.wandClickListener;
+import com.asintoto.coralduels.listeners.WandClickListener;
 import com.asintoto.coralduels.managers.*;
 import com.asintoto.coralduels.tabcompleters.DuelAdminTabCompleter;
 import com.asintoto.coralduels.tabcompleters.DuelTabCompleter;
@@ -55,13 +56,15 @@ public final class CoralDuels extends JavaPlugin {
 
         getCommand("dueladmin").setExecutor(new DuelAdminCommand(this));
         getCommand("duel").setExecutor(new DuelCommand(this));
+        getCommand("duelaccept").setExecutor(new DuelAcceptCommand(this));
 
         getCommand("dueladmin").setTabCompleter(new DuelAdminTabCompleter(this));
         getCommand("duel").setTabCompleter(new DuelTabCompleter(this));
+        getCommand("duelaccept").setTabCompleter(new DuelTabCompleter(this));
 
         Debug.log("&aComandi inizializzati");
 
-        getServer().getPluginManager().registerEvents(new wandClickListener(this), this);
+        getServer().getPluginManager().registerEvents(new WandClickListener(this), this);
         Debug.log("&aEventi registrati");
 
         arenaManager = new ArenaManager(this);

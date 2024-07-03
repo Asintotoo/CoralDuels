@@ -3,6 +3,7 @@ package com.asintoto.coralduels.utils;
 import com.asintoto.coralduels.CoralDuels;
 import com.asintoto.coralduels.managers.ArenaManager;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 public class Arena {
     private Location loc1;
@@ -49,5 +50,10 @@ public class Arena {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void teleport(Player p1, Player p2) {
+        p1.teleport(loc1);
+        p2.teleport(loc2);
     }
 }

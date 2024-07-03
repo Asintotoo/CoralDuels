@@ -42,7 +42,7 @@ public class DuelRequest {
 
         TextComponent message = new TextComponent(msg);
         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverMsg).create()));
-        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/say to do"));
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/duelaccept " + sender.getName()));
 
         target.spigot().sendMessage(message);
 

@@ -12,4 +12,4 @@ commands:
     permission: coralduels.use
   duelaccept:
     description: Command to accept a duel
-    permission: coreduels.accept
+    permission: coralduels.accept

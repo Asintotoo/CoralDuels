@@ -9,17 +9,16 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class DuelCommand implements CommandExecutor {
-
+public class DuelAcceptCommand implements CommandExecutor {
     private final CoralDuels plugin;
 
-    public DuelCommand(CoralDuels plugin) {
+    public DuelAcceptCommand(CoralDuels plugin) {
         this.plugin = plugin;
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label,String[] args) {
-        if(!sender.hasPermission("coralduels.use")) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if(!sender.hasPermission("coralduels.accept")) {
             String msg = plugin.getMessages().getString("error.no-permission");
             sender.sendMessage(Manager.formatMessage(msg));
             return true;
@@ -30,6 +29,8 @@ public class DuelCommand implements CommandExecutor {
             sender.sendMessage(Manager.formatMessage(msg));
             return true;
         }
+
+        Player p = (Player) sender;
 
         if(args.length >= 1) {
             Player target = Bukkit.getPlayer(args[0]);
@@ -46,18 +47,19 @@ public class DuelCommand implements CommandExecutor {
                 return true;
             }
 
-            if(plugin.getRequestManager().hasRequestFrom(target, (Player) sender)) {
-                String msg = plugin.getMessages().getString("error.request-already-existing")
+            if(!plugin.getRequestManager().hasRequestFrom(p, target)) {
+                String msg = plugin.getMessages().getString("error.no-request-from-player")
                         .replace("%player%", target.getName());
                 sender.sendMessage(Manager.formatMessage(msg));
                 return true;
             }
 
-            new DuelRequest((Player) sender, target);
+            plugin.getRequestManager().acceptRequest(target, p);
+
             return true;
         }
 
-        String msg = plugin.getMessages().getString("player.duel.usage");
+        String msg = plugin.getMessages().getString("player.duel.accpet-usage");
         sender.sendMessage(Manager.formatMessage(msg));
         return true;
     }

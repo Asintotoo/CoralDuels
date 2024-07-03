@@ -22,6 +22,8 @@ duel:
     - "warp"
     - "tpa"
     - "tpahere"
+    - "duel"
+    - "duelaccept"
   allow-block-destruction: false
   allow-block-placement: false
 

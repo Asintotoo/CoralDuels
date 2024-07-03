@@ -16,6 +16,9 @@ error:
   different-world-location: "&7[&c!&7] &r&cLe posizioni selezionate devono essere nello stesso mondo"
   player-offline: "&7[&c!&7] &r&cIl Giocatore indicato è offline o non esiste"
   self-duel: "&7[&c!&7] &r&cNon puoi duellare te stesso"
+  no-request-from-player: "&7[&c!&7] &r&cNon hai nessuna richiesta di duello da parte di %player%"
+  request-already-existing: "&7[&c!&7] &r&c%player% ha già una richiesta di duello da parte tua"
+  no-arena-avaiable: "&7[&c!&7] &r&cDuello annullato! Nessuna arena disponibile. Riprovare più tardi"
 
 admin:
   reload: "%prefix% &r&aPlugin ricaricato"
@@ -34,8 +37,11 @@ admin:
 player:
   duel:
     usage: "&c/duel <name>"
+    accept-usage: "&c/duelaccept <name>"
     request-sent: "%prefix% &r&aHai inviato una richiesta di duello a &r&e%player%"
     request-message: "%prefix% &r&e%sender% &r&ati ha inviato una richiesta di duello, clicca qui per accettare"
     request-hover-message: "&eClicca qui per accettare"
     request-expired-sender: "%prefix% &r&cLa tua richiesta di duello per %player% è scaduta"
     request-expired-target: "%prefix% &r&cLa tua richiesta di duello da parte di %player% è scaduta"
+    accept-sender: "%prefix% &r&e%player% &aha accettato la tua richiesta di duello"
+    accept-target: "%prefix% &r&ahai accettato la tua richiesta di duello di &e%player%"
