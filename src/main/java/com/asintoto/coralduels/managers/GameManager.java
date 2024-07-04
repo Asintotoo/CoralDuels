@@ -29,6 +29,14 @@ public class GameManager {
         this.deathLocationMap = new HashMap<>();
     }
 
+    public Map<Player, GameMode> getGameModeMap() {
+        return gameModeMap;
+    }
+
+    public Map<Player, Location> getPlayerLocationMap() {
+        return playerLocationMap;
+    }
+
     public PlayerStatus getPlayerStatus(Player p) {
         if(playerStatus.containsKey(p)) {
             return playerStatus.get(p);

@@ -11,10 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -146,11 +143,24 @@ public class GameListener implements Listener {
             return;
         }
 
+        plugin.getInventoryManager().addPlayerLeft(p);
+
         Game g = plugin.getGameManager().getPlayerGame(p);
 
         Player otherPlayer = g.getP1().getName().equalsIgnoreCase(p.getName()) ? g.getP2() : g.getP1();
 
         plugin.getGameManager().endDuel(p, otherPlayer, g);
 
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        Player p = e.getPlayer();
+
+        if(!plugin.getInventoryManager().getLeftPlayers().contains(p.getUniqueId().toString())) {
+            return;
+        }
+
+        plugin.getInventoryManager().restorePlayerLeft(p);
     }
 }
