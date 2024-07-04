@@ -63,6 +63,15 @@ public class PapiHook extends PlaceholderExpansion {
             }
         }
 
+        if(params.equalsIgnoreCase("wins")) {
+            if(player.isOnline()) {
+                Player p = (Player) player;
+                return Integer.toString(plugin.getDataManager().getWins(p));
+            } else {
+                return Integer.toString(plugin.getDataManager().getWins(player.getName()));
+            }
+        }
+
         int topPos = getTopPos(params);
 
         // DA OTTIMIZZARE
@@ -71,7 +80,7 @@ public class PapiHook extends PlaceholderExpansion {
             if(params.contains("games")) {
                 if(params.contains("value")) {
                     return plugin.getDataManager().getLeaderboardGamesCount(topPos);
-                } else if(params.contains("player")) {
+                } else if(params.contains("name")) {
                     return plugin.getDataManager().getLeaderboardGamesPlayer(topPos);
                 }
             }
@@ -79,7 +88,7 @@ public class PapiHook extends PlaceholderExpansion {
             if(params.contains("death")) {
                 if(params.contains("value")) {
                     return plugin.getDataManager().getLeaderboardDeathsCount(topPos);
-                } else if(params.contains("player")) {
+                } else if(params.contains("name")) {
                     return plugin.getDataManager().getLeaderboardDeathsPlayer(topPos);
                 }
             }
@@ -87,7 +96,7 @@ public class PapiHook extends PlaceholderExpansion {
             if(params.contains("kills")) {
                 if(params.contains("value")) {
                     return plugin.getDataManager().getLeaderboardKillsCount(topPos);
-                } else if(params.contains("player")) {
+                } else if(params.contains("name")) {
                     return plugin.getDataManager().getLeaderboardKillsPlayer(topPos);
                 }
             }
@@ -95,7 +104,7 @@ public class PapiHook extends PlaceholderExpansion {
             if(params.contains("wins")) {
                 if(params.contains("value")) {
                     return plugin.getDataManager().getLeaderboardWinsCount(topPos);
-                } else if(params.contains("player")) {
+                } else if(params.contains("name")) {
                     return plugin.getDataManager().getLeaderboardWinsPlayer(topPos);
                 }
             }
@@ -108,10 +117,10 @@ public class PapiHook extends PlaceholderExpansion {
         s = s.replace("top_", "")
                 .replace("_value", "")
                 .replace("_name", "")
-                .replace("_games", "")
-                .replace("_kills", "")
-                .replace("_deaths", "")
-                .replace("_wins", "");
+                .replace("games_", "")
+                .replace("kills_", "")
+                .replace("deaths_", "")
+                .replace("wins_", "");
 
         if(Manager.isValidInteger(s)) {
             return Integer.parseInt(s);

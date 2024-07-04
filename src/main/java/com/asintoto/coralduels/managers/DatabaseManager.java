@@ -338,7 +338,10 @@ public class DatabaseManager {
     public void removeGames(Player p, int b) {
         int current = getGames(p);
 
-        if(b > 0) b = 0;
+        if(b < 0) b = 0;
+        if(b > current) {
+            b = current;
+        }
 
         setGames(p, current - b);
     }
@@ -346,7 +349,10 @@ public class DatabaseManager {
     public void removeKills(Player p, int b) {
         int current = getKills(p);
 
-        if(b > 0) b = 0;
+        if(b < 0) b = 0;
+        if(b > current) {
+            b = current;
+        }
 
         setKills(p, current - b);
     }
@@ -354,7 +360,10 @@ public class DatabaseManager {
     public void removeDeaths(Player p, int b) {
         int current = getDeaths(p);
 
-        if(b > 0) b = 0;
+        if(b < 0) b = 0;
+        if(b > current) {
+            b = current;
+        }
 
         setDeaths(p, current - b);
     }
@@ -362,7 +371,10 @@ public class DatabaseManager {
     public void removeWins(Player p, int b) {
         int current = getWins(p);
 
-        if(b > 0) b = 0;
+        if(b < 0) b = 0;
+        if(b > current) {
+            b = current;
+        }
 
         setWins(p, current - b);
     }

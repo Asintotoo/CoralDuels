@@ -21,6 +21,7 @@ error:
   no-arena-avaiable: "&7[&c!&7] &r&cDuello annullato! Nessuna arena disponibile. Riprovare più tardi"
   already-in-duel: "&7[&c!&7] &r&c%player% è attualmente in un duello"
   blocked-command: "&7[&c!&7] &r&cNon puoi eseguire questo comando mentre sei in duello"
+  unknown-arg: "&7[&c!&7] &r&cParametro Sconosciuto"
 
 admin:
   reload: "%prefix% &r&aPlugin ricaricato"
@@ -35,6 +36,32 @@ admin:
     list: "&e%name%: &r%status%"
     avaiable: "&aAvaiable"
     not-avaiable: "&cNot Avaiable"
+  stats:
+    get:
+      wins: "%prefix% &r&e%player% &r&aha &e%amount% &avittorie"
+      kills: "%prefix% &r&e%player% &r&aha &e%amount% &auccisioni"
+      deaths: "%prefix% &r&e%player% &r&aha &e%amount% &amorti"
+      games: "%prefix% &r&e%player% &r&aha &e%amount% &agame giocati"
+    set:
+      wins: "%prefix% &r&aHai impostato le vittorie di &e%player% &r&aa &e%amount%"
+      kills: "%prefix% &r&aHai impostato le uccisioni di &e%player% &r&aa &e%amount%"
+      deaths: "%prefix% &r&aHai impostato le morti di &e%player% &r&aa &e%amount%"
+      games: "%prefix% &r&aHai impostato i game giocati di &e%player% &r&aa &e%amount%"
+    add:
+      wins: "%prefix% &r&aHai aggiunto &e%amount% &r&aalle vittorie di &e%player%"
+      kills: "%prefix% &r&aHai aggiunto &e%amount% &r&aalle uccisioni di &e%player%"
+      deaths: "%prefix% &r&aHai aggiunto &e%amount% &r&aalle morti di &e%player%"
+      games: "%prefix% &r&aHai aggiunto &e%amount% &r&aai game giocati di &e%player%"
+    remove:
+      wins: "%prefix% &r&aHai rimosso &e%amount% &adalle vittorie di &e%player%"
+      kills: "%prefix% &r&aHai rimosso &e%amount% &adalle uccisioni di &e%player%"
+      deaths: "%prefix% &r&aHai rimosso &e%amount% &adalle morti di &e%player%"
+      games: "%prefix% &r&aHai rimosso &e%amount% &adai game giocati di &e%player%"
+    reset:
+      wins: "%prefix% &r&aHai resettato le vittorie di &e%player%"
+      kills: "%prefix% &r&aHai resettato le vittorie di &e%player%"
+      deaths: "%prefix% &r&aHai resettato le vittorie di &e%player%"
+      games: "%prefix% &r&aHai resettato le vittorie di &e%player%"
 
 player:
   duel:
