@@ -4,8 +4,7 @@ import com.asintoto.coralduels.CoralDuels;
 import com.asintoto.coralduels.enums.PlayerStatus;
 import com.asintoto.coralduels.utils.Arena;
 import com.asintoto.coralduels.utils.Game;
-import org.bukkit.GameMode;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -18,12 +17,16 @@ public class GameManager {
     private Map<Player, PlayerStatus> playerStatus;
     private Set<Game> gameList;
     private Map<Player, GameMode> gameModeMap;
+    private Map<Player, Location> playerLocationMap;
+    private Map<Player, Location> deathLocationMap;
 
     public GameManager(CoralDuels plugin) {
         this.plugin = plugin;
         this.playerStatus = new HashMap<>();
         this.gameList = new HashSet<>();
         this.gameModeMap = new HashMap<>();
+        this.playerLocationMap = new HashMap<>();
+        this.deathLocationMap = new HashMap<>();
     }
 
     public PlayerStatus getPlayerStatus(Player p) {
@@ -35,7 +38,9 @@ public class GameManager {
     }
 
     public boolean isPlayerInGame(Player p) {
-        return getPlayerStatus(p) == PlayerStatus.IN_GAME || getPlayerStatus(p) == PlayerStatus.STARTING;
+        return getPlayerStatus(p) == PlayerStatus.IN_GAME
+                || getPlayerStatus(p) == PlayerStatus.STARTING
+                || getPlayerStatus(p) == PlayerStatus.ENDED;
     }
 
     public void setPlayerStatus(Player p, PlayerStatus status) {
@@ -100,7 +105,18 @@ public class GameManager {
         return null;
     }
 
+    public Map<Player, Location> getDeathLocationMap() {
+        return deathLocationMap;
+    }
+
     public void endDuel(Player loser, Player winner, Game g) {
+
+        if(plugin.getConfig().getBoolean("duel.spectate-on-end")) {
+            winner.setGameMode(GameMode.SPECTATOR);
+            loser.setGameMode(GameMode.SPECTATOR);
+        }
+
+
         plugin.getGameManager().setPlayerStatus(loser, PlayerStatus.NOT_IN_GAME);
         plugin.getGameManager().setPlayerStatus(winner, PlayerStatus.NOT_IN_GAME);
 
@@ -112,6 +128,7 @@ public class GameManager {
 
         g.getArena().setHasPlayer(false);
 
+
         List<String> msgs = plugin.getMessages().getStringList("player.duel.duel-end");
         for(String s : msgs) {
             String formatted = Manager.formatMessage(s
@@ -122,17 +139,54 @@ public class GameManager {
             loser.sendMessage(formatted);
         }
 
-        if(plugin.getConfig().getBoolean("duel.gamemode-settings.set-prev-gamemode-when-end")) {
-            if(gameModeMap.containsKey(winner)) {
-                winner.setGameMode(gameModeMap.get(winner));
-                gameModeMap.remove(winner);
-            }
+        new BukkitRunnable() {
 
-            if(gameModeMap.containsKey(loser)) {
-                loser.setGameMode(gameModeMap.get(loser));
-                gameModeMap.remove(loser);
+            @Override
+            public void run() {
+
+                if(plugin.getConfig().getBoolean("duel.teleport.teleport-back")) {
+                    if(playerLocationMap.containsKey(winner)) {
+                        winner.teleport(playerLocationMap.get(winner));
+                        playerLocationMap.remove(winner);
+                    }
+                    if(playerLocationMap.containsKey(loser)) {
+                        loser.teleport(playerLocationMap.get(loser));
+                        playerLocationMap.remove(loser);
+                    }
+                } else {
+                    double x = plugin.getConfig().getDouble("duel.teleport.teleport-location.x");
+                    double y = plugin.getConfig().getDouble("duel.teleport.teleport-location.y");
+                    double z = plugin.getConfig().getDouble("duel.teleport.teleport-location.z");
+                    World w = Bukkit.getWorld(plugin.getConfig().getString("duel.teleport.teleport-location.world"));
+                    double pitch = plugin.getConfig().getDouble("duel.teleport.teleport-location.pitch");
+                    double yaw = plugin.getConfig().getDouble("duel.teleport.teleport-location.yaw");
+
+                    if(w != null) {
+                        Location loc = new Location(w, x, y, z, (float) yaw, (float) pitch);
+                        winner.teleport(loc);
+                        loser.teleport(loc);
+                    }
+                }
+
+                if(plugin.getConfig().getBoolean("duel.gamemode-settings.set-prev-gamemode-when-end")) {
+                    if(gameModeMap.containsKey(winner)) {
+                        winner.setGameMode(gameModeMap.get(winner));
+                        gameModeMap.remove(winner);
+                    }
+
+                    if(gameModeMap.containsKey(loser)) {
+                        loser.setGameMode(gameModeMap.get(loser));
+                        gameModeMap.remove(loser);
+                    }
+                }
+
+                plugin.getInventoryManager().restorePlayerInventory(winner);
+                plugin.getInventoryManager().restorePlayerInventory(loser);
+
             }
-        }
+        }.runTaskLater(plugin, 3 * 20L);
+
+
     }
 
     public void startDuel(Player sender, Player target) {
@@ -183,6 +237,17 @@ public class GameManager {
             sender.setGameMode(mode);
             target.setGameMode(mode);
         }
+
+        if(plugin.getConfig().getBoolean("duel.teleport.teleport-back")) {
+            playerLocationMap.put(sender, sender.getLocation());
+            playerLocationMap.put(target, target.getLocation());
+        }
+
+        plugin.getInventoryManager().savePlayerInventory(sender);
+        plugin.getInventoryManager().savePlayerInventory(target);
+
+        plugin.getInventoryManager().clearPlayerInventory(sender);
+        plugin.getInventoryManager().clearPlayerInventory(target);
 
         a.teleport(sender, target);
         a.setHasPlayer(true);

@@ -12,9 +12,10 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerCommandSendEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class GameListener implements Listener {
         blockedCommands = plugin.getConfig().getStringList("duel.commands-to-block");
     }
 
-    public static void reloadBlockedCommand () {
+    public static void reloadBlockedCommand() {
         blockedCommands = CoralDuels.getInstance().getConfig().getStringList("duel.commands-to-block");
     }
 
@@ -36,13 +37,15 @@ public class GameListener implements Listener {
     public void onDeath(PlayerDeathEvent e) {
         Player p = e.getEntity().getPlayer();
 
-        if(!plugin.getGameManager().isPlayerInGame(p)) {
+        if (!plugin.getGameManager().isPlayerInGame(p)) {
             return;
         }
 
+        plugin.getGameManager().getDeathLocationMap().put(p, p.getLocation());
+
         Game g = plugin.getGameManager().getPlayerGame(p);
 
-        if(g == null) {
+        if (g == null) {
             return;
         }
 
@@ -53,8 +56,24 @@ public class GameListener implements Listener {
         plugin.getDataManager().addDeaths(p, 1);
         plugin.getDataManager().addWins(otherPlayer, 1);
 
-        if(killer != null && killer.getName().equalsIgnoreCase(otherPlayer.getName())) {
+        if (killer != null && killer.getName().equalsIgnoreCase(otherPlayer.getName())) {
             plugin.getDataManager().addKills(otherPlayer, 1);
+        }
+
+        if (plugin.getConfig().getBoolean("duel.immediate-respawn")) {
+            new BukkitRunnable() {
+
+                @Override
+                public void run() {
+                    p.spigot().respawn();
+                    if (plugin.getGameManager().getDeathLocationMap().containsKey(p)) {
+                        p.teleport(plugin.getGameManager().getDeathLocationMap().get(p));
+                        plugin.getGameManager().getDeathLocationMap().remove(p);
+                    }
+                }
+
+            }.runTaskLater(plugin, 1L);
+
         }
 
         plugin.getGameManager().endDuel(p, otherPlayer, g);
@@ -67,16 +86,16 @@ public class GameListener implements Listener {
         String command = e.getMessage();
         Debug.log(command);
 
-        if(!plugin.getConfig().getBoolean("duel.block-commands")) {
+        if (!plugin.getConfig().getBoolean("duel.block-commands")) {
             return;
         }
 
-        if(!plugin.getGameManager().isPlayerInGame(p)) {
+        if (!plugin.getGameManager().isPlayerInGame(p)) {
             return;
         }
 
-        for(String s : blockedCommands) {
-            if(command.startsWith(s)) {
+        for (String s : blockedCommands) {
+            if (command.startsWith(s)) {
                 e.setCancelled(true);
                 String msg = plugin.getMessages().getString("error.blocked-command");
                 p.sendMessage(Manager.formatMessage(msg));
@@ -89,7 +108,7 @@ public class GameListener implements Listener {
     public void onMove(PlayerMoveEvent e) {
         Player p = e.getPlayer();
 
-        if(plugin.getGameManager().getPlayerStatus(p) == PlayerStatus.STARTING) {
+        if (plugin.getGameManager().getPlayerStatus(p) == PlayerStatus.STARTING) {
             e.setCancelled(true);
         }
     }
@@ -98,11 +117,11 @@ public class GameListener implements Listener {
     public void onBreak(BlockBreakEvent e) {
         Player p = e.getPlayer();
 
-        if(plugin.getConfig().getBoolean("duel.allow-block-destruction")) {
+        if (plugin.getConfig().getBoolean("duel.allow-block-destruction")) {
             return;
         }
 
-        if(plugin.getGameManager().isPlayerInGame(p)) {
+        if (plugin.getGameManager().isPlayerInGame(p)) {
             e.setCancelled(true);
         }
     }
@@ -111,11 +130,11 @@ public class GameListener implements Listener {
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
 
-        if(plugin.getConfig().getBoolean("duel.allow-block-placement")) {
+        if (plugin.getConfig().getBoolean("duel.allow-block-placement")) {
             return;
         }
 
-        if(plugin.getGameManager().isPlayerInGame(p)) {
+        if (plugin.getGameManager().isPlayerInGame(p)) {
             e.setCancelled(true);
         }
     }
@@ -123,7 +142,7 @@ public class GameListener implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
         Player p = e.getPlayer();
-        if(!plugin.getGameManager().isPlayerInGame(p)) {
+        if (!plugin.getGameManager().isPlayerInGame(p)) {
             return;
         }
 

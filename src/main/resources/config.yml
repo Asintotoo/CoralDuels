@@ -14,6 +14,8 @@ database:
 duel:
   request-expire-time: 30 # seconds
   block-commands: true
+  immediate-respawn: true
+  spectate-on-end: true
   commands-to-block:
     - "/spawn"
     - "/shop"
@@ -31,6 +33,16 @@ duel:
     change-gamemode: true
     gamemode: "SURVIVAL"
     set-prev-gamemode-when-end: true
+  teleport:
+    teleport-back: true
+    # If the above statement is set to false, the players will be teleported at the given location when game ends
+    teleport-location:
+      x: 0
+      y: 0
+      z: 0
+      pitch: 0
+      yaw: 0
+      world: world
 
 
 arena-wand:
