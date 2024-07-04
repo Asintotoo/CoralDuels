@@ -9,6 +9,7 @@ import com.asintoto.coralduels.utils.Game;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class RequestManager {
@@ -76,33 +77,7 @@ public class RequestManager {
 
         requestsList.remove(r);
 
-        String msg = plugin.getMessages().getString("player.duel.accept-sender")
-                .replace("%player%", target.getName());
-
-        sender.sendMessage(Manager.formatMessage(msg));
-
-        msg = plugin.getMessages().getString("player.duel.accept-target")
-                .replace("%player%", sender.getName());
-
-        target.sendMessage(Manager.formatMessage(msg));
-
-        Arena a = plugin.getArenaManager().getAvaiableArena();
-        if(a == null) {
-            msg = plugin.getMessages().getString("error.no-arena-avaiable");
-            sender.sendMessage(Manager.formatMessage(msg));
-            target.sendMessage(Manager.formatMessage(msg));
-            return;
-        }
-
-        a.teleport(sender, target);
-        a.setHasPlayer(true);
-
-        new Game(a, sender, target);
-
-        plugin.getGameManager().setPlayerStatus(sender, PlayerStatus.STARTING);
-        plugin.getGameManager().setPlayerStatus(target, PlayerStatus.STARTING);
-
-        plugin.getGameManager().gameCountdown(sender, target);
+        plugin.getGameManager().startDuel(sender, target);
 
     }
 }

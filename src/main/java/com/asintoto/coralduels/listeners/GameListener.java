@@ -57,16 +57,7 @@ public class GameListener implements Listener {
             plugin.getDataManager().addKills(otherPlayer, 1);
         }
 
-        plugin.getGameManager().setPlayerStatus(p, PlayerStatus.NOT_IN_GAME);
-        plugin.getGameManager().setPlayerStatus(otherPlayer, PlayerStatus.NOT_IN_GAME);
-
-        String msg = plugin.getMessages().getString("player.duel.duel-win").replace("%player%", p.getName());
-        otherPlayer.sendMessage(Manager.formatMessage(msg));
-
-        msg = plugin.getMessages().getString("player.duel.duel-lost").replace("%player%", otherPlayer.getName());
-        p.sendMessage(Manager.formatMessage(msg));
-
-        g.getArena().setHasPlayer(false);
+        plugin.getGameManager().endDuel(p, otherPlayer, g);
 
     }
 
@@ -140,16 +131,7 @@ public class GameListener implements Listener {
 
         Player otherPlayer = g.getP1().getName().equalsIgnoreCase(p.getName()) ? g.getP2() : g.getP1();
 
-        plugin.getDataManager().addDeaths(p, 1);
-        plugin.getDataManager().addWins(otherPlayer, 1);
-
-        String msg = plugin.getMessages().getString("player.duel.duel-win").replace("%player%", p.getName());
-        otherPlayer.sendMessage(Manager.formatMessage(msg));
-
-        plugin.getGameManager().setPlayerStatus(p, PlayerStatus.NOT_IN_GAME);
-        plugin.getGameManager().setPlayerStatus(otherPlayer, PlayerStatus.NOT_IN_GAME);
-
-        g.getArena().setHasPlayer(false);
+        plugin.getGameManager().endDuel(p, otherPlayer, g);
 
     }
 }

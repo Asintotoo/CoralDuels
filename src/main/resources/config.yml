@@ -27,6 +27,10 @@ duel:
   allow-block-destruction: false
   allow-block-placement: false
   countdown-duration: 3
+  gamemode-settings:
+    change-gamemode: true
+    gamemode: "SURVIVAL"
+    set-prev-gamemode-when-end: true
 
 
 arena-wand:

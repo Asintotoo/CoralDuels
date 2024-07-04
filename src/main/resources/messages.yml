@@ -25,7 +25,7 @@ error:
 
 admin:
   reload: "%prefix% &r&aPlugin ricaricato"
-  usage: "&c/dualadmin <reload|arena|getarenawand>"
+  usage: "&c/dualadmin <reload|arena|getarenawand|stats>"
   wand:
     get: "%prefix% &r&aHai ottenuto la Bacchetta delle Arene"
     first-pos: "%prefix% &r&dPrimo punto di generazione impostato"
@@ -76,6 +76,18 @@ player:
     accept-target: "%prefix% &r&ahai accettato la tua richiesta di duello di &e%player%"
     duel-lost: "%prefix% &r&cHai perso il duello contro &e%player%"
     duel-win: "%prefix% &r&aHai vinto il duello contro &e%player%"
+    duel-start:
+      - "&e&m                                             "
+      - "&e&lDuello Iniziato"
+      - "&aTu: &f%player%"
+      - "<SOLID:FF0000>Avversario: &f%rival%"
+      - "&e&m                                             "
+    duel-end:
+      - "&c&m                                             "
+      - "&c&lDuello Concluso"
+      - "&aVincitore: &f%winner%"
+      - "<SOLID:FF0000>Perdente: &f%loser%"
+      - "&c&m                                             "
   countdown:
     numbers: "&c%number%"
     go: "&a&lVia!"
