@@ -191,6 +191,8 @@ public class GameManager {
                 plugin.getInventoryManager().restorePlayerInventory(winner);
                 plugin.getInventoryManager().restorePlayerInventory(loser);
 
+                plugin.getRewardProcessor().reward(winner);
+
             }
         }.runTaskLater(plugin, 3 * 20L);
 

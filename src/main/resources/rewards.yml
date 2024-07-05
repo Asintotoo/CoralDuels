@@ -1,0 +1,23 @@
+# Rewards types:
+# [command]: execute a command as the console
+# [player]: execute a command as the player
+# [money]: give money to the player (REQUIRES VAULT)
+# [item]: give a (simple) item -> usage: [item] DIAMOND:5 (this will give 5 diamonds to the player)
+# [message]: send a message to the player
+
+rewards:
+  example-1:
+    # The number of wins needed to receive the reward
+    wins: 1
+    # Wether or not the reward should be given every "wins" wins
+    repeat: false
+    rewards:
+      - "[command] broadcast %player% ha vinto il suo primo duello!"
+      - "[item] DIAMOND:1"
+  example-2:
+    wins: 5
+    # With this set to true, the reward will be claimed every 5 wins
+    repeat: true
+    rewards:
+      - "[money] 1000"
+      - "[message] &eHai ricebuto &61000 &r&esoldi"

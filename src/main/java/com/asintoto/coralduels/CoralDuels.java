@@ -10,11 +10,14 @@ import com.asintoto.coralduels.listeners.MenuClickListener;
 import com.asintoto.coralduels.listeners.MenuCloseListener;
 import com.asintoto.coralduels.listeners.WandClickListener;
 import com.asintoto.coralduels.managers.*;
+import com.asintoto.coralduels.rewards.RewardProcessor;
 import com.asintoto.coralduels.tabcompleters.DuelAdminTabCompleter;
 import com.asintoto.coralduels.tabcompleters.DuelTabCompleter;
 import com.asintoto.coralduels.utils.Debug;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.sql.SQLException;
@@ -34,6 +37,9 @@ public final class CoralDuels extends JavaPlugin {
     private InventoryManager inventoryManager;
     private KitManager kitManager;
     private MenuManager menuManager;
+
+    private Economy econ = null;
+    private RewardProcessor rewardProcessor;
 
     @Override
     public void onEnable() {
@@ -65,6 +71,12 @@ public final class CoralDuels extends JavaPlugin {
             Debug.log("&aPapi Registrato");
         }
 
+        if (!this.setupEconomy()) {
+            this.getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", this.getDescription().getName()));
+            this.getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         getCommand("dueladmin").setExecutor(new DuelAdminCommand(this));
         getCommand("duel").setExecutor(new DuelCommand(this));
         getCommand("duelaccept").setExecutor(new DuelAcceptCommand(this));
@@ -90,6 +102,8 @@ public final class CoralDuels extends JavaPlugin {
         inventoryManager = new InventoryManager(this);
         kitManager = new KitManager(this);
         menuManager = new MenuManager(this);
+
+        rewardProcessor = new RewardProcessor(this);
 
         arenaManager.init();
 
@@ -154,6 +168,26 @@ public final class CoralDuels extends JavaPlugin {
         GameListener.reloadBlockedCommand();
 
         Debug.log("&aReload effettuato");
+    }
+
+    private boolean setupEconomy() {
+        if (this.getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = this.getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        this.econ = rsp.getProvider();
+        return this.econ != null;
+    }
+
+    public Economy getEconomy() {
+        return econ;
+    }
+
+    public RewardProcessor getRewardProcessor() {
+        return rewardProcessor;
     }
 
     public static CoralDuels getInstance() {
