@@ -42,6 +42,91 @@ public class DuelAdminCommand implements CommandExecutor {
             return true;
         }
 
+        if (args.length >= 1 && args[0].equalsIgnoreCase("kits")) {
+            if (!sender.hasPermission("coralduels.admin.kits")) {
+                String msg = plugin.getMessages().getString("error.no-permission");
+                sender.sendMessage(Manager.formatMessage(msg));
+                return true;
+            }
+
+            if (args.length < 3 && !args[1].equalsIgnoreCase("list")) {
+                String msg = plugin.getMessages().getString("error.not-enough-args");
+                sender.sendMessage(Manager.formatMessage(msg));
+                return true;
+            }
+
+            if(args[1].equalsIgnoreCase("list")) {
+                String prefix = plugin.getMessages().getString("admin.kits.list.prefix");
+
+                String format = plugin.getMessages().getString("admin.kits.list.kit-format");
+
+                String msg = prefix;
+
+                for(String kit : plugin.getKitManager().getKitList()) {
+                    msg += format.replace("%kit%", kit) + " ";
+                }
+
+                sender.sendMessage(Manager.formatMessage(msg));
+                return true;
+            }
+
+            if(args[1].equalsIgnoreCase("save")) {
+                if (!(sender instanceof Player)) {
+                    String msg = plugin.getMessages().getString("error.not-a-player");
+                    sender.sendMessage(Manager.formatMessage(msg));
+                    return true;
+                }
+
+                Player p = (Player) sender;
+
+                plugin.getKitManager().saveKit(p, args[2]);
+
+                String msg = plugin.getMessages().getString("admin.kits.saved").replace("%kit%", args[2]);
+                sender.sendMessage(Manager.formatMessage(msg));
+                return true;
+            }
+
+            if(args[1].equalsIgnoreCase("delete")) {
+
+                if(!plugin.getKitManager().kitExist(args[2])) {
+                    String msg = plugin.getMessages().getString("error.kit-not-existing").replace("%kit%", args[2]);
+                    sender.sendMessage(Manager.formatMessage(msg));
+                    return true;
+                }
+
+                plugin.getKitManager().deleteKit(args[2]);
+
+                String msg = plugin.getMessages().getString("admin.kits.delete").replace("%kit%", args[2]);
+                sender.sendMessage(Manager.formatMessage(msg));
+                return true;
+            }
+
+            if(args[1].equalsIgnoreCase("load")) {
+                if (!(sender instanceof Player)) {
+                    String msg = plugin.getMessages().getString("error.not-a-player");
+                    sender.sendMessage(Manager.formatMessage(msg));
+                    return true;
+                }
+
+                Player p = (Player) sender;
+
+                if(args.length >= 4 && args[3].equalsIgnoreCase("-c")) {
+                    plugin.getKitManager().loadKit(p, args[2]);
+                    String msg = plugin.getMessages().getString("admin.kits.loaded").replace("%kit%", args[2]);
+                    sender.sendMessage(Manager.formatMessage(msg));
+                    return true;
+
+                }
+
+
+                String msg = plugin.getMessages().getString("admin.kits.load-warning").replace("%kit%", args[2]);
+                sender.sendMessage(Manager.formatMessage(msg));
+                return true;
+            }
+
+            return true;
+        }
+
         if (args.length >= 1 && args[0].equalsIgnoreCase("getarenawand")) {
             if (!sender.hasPermission("coralduels.admin.wand")) {
                 String msg = plugin.getMessages().getString("error.no-permission");

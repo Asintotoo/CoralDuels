@@ -23,10 +23,11 @@ error:
   blocked-command: "&7[&c!&7] &r&cNon puoi eseguire questo comando mentre sei in duello"
   unknown-arg: "&7[&c!&7] &r&cParametro Sconosciuto"
   not-a-number: "&7[&c!&7] &r&cIl valore inserito non è un numero valido"
+  kit-not-existing: "&7[&c!&7] &r&cQuesto kit non esiste"
 
 admin:
   reload: "%prefix% &r&aPlugin ricaricato"
-  usage: "&c/dualadmin <reload|arena|getarenawand|stats>"
+  usage: "&c/dualadmin <reload|arena|getarenawand|stats|kits>"
   wand:
     get: "%prefix% &r&aHai ottenuto la Bacchetta delle Arene"
     first-pos: "%prefix% &r&dPrimo punto di generazione impostato"
@@ -63,6 +64,14 @@ admin:
       kills: "%prefix% &r&aHai resettato le vittorie di &e%player%"
       deaths: "%prefix% &r&aHai resettato le vittorie di &e%player%"
       games: "%prefix% &r&aHai resettato le vittorie di &e%player%"
+  kits:
+    saved: "%prefix% &r&aIl kit &e%kit% &r&aè stato salvato con successo"
+    delete: "%prefix% &r&aIl kit &e%kit% &r&aè stato cancellato con successo"
+    load-warning: "%prefix% &r&aAttenzione, il tuo attuale inventario verrà svuotato per dare posto al kit, per confermare esegui &e/dueladmin kit load %kit% -c"
+    loaded: "%prefix% &r&aIl kit &e%kit% &r&aè stato caricato con successo"
+    list:
+      prefix: "&bKit List: &r"
+      kit-format: "&6%kit%&r"
 
 player:
   duel:

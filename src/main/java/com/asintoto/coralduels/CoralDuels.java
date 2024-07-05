@@ -31,6 +31,7 @@ public final class CoralDuels extends JavaPlugin {
     private RequestManager requestManager;
     private GameManager gameManager;
     private InventoryManager inventoryManager;
+    private KitManager kitManager;
 
     @Override
     public void onEnable() {
@@ -78,6 +79,7 @@ public final class CoralDuels extends JavaPlugin {
         requestManager = new RequestManager(this);
         gameManager = new GameManager(this);
         inventoryManager = new InventoryManager(this);
+        kitManager = new KitManager(this);
 
         arenaManager.init();
 
@@ -107,7 +109,6 @@ public final class CoralDuels extends JavaPlugin {
         saveDefaultConfig();
         this.messages = YamlManager.createYamlConfiguration("messages.yml");
         this.menus = YamlManager.createYamlConfiguration("menus.yml");
-        this.kits = YamlManager.createYamlConfiguration("kits.yml");
         this.rewards = YamlManager.createYamlConfiguration("rewards.yml");
 
         Debug.log("&aFiles caricati");
@@ -119,10 +120,6 @@ public final class CoralDuels extends JavaPlugin {
 
     public YamlConfiguration getMessages() {
         return messages;
-    }
-
-    public YamlConfiguration getKits() {
-        return kits;
     }
 
     public YamlConfiguration getMenus() {
@@ -141,7 +138,6 @@ public final class CoralDuels extends JavaPlugin {
         reloadConfig();
         this.messages = YamlManager.reloadYamlConfiguration("messages.yml");
         this.menus = YamlManager.reloadYamlConfiguration("menus.yml");
-        this.kits = YamlManager.reloadYamlConfiguration("kits.yml");
         this.rewards = YamlManager.reloadYamlConfiguration("rewards.yml");
 
         this.prefix = ColorLib.setColors(getConfig().getString("general.prefix"));
@@ -172,5 +168,9 @@ public final class CoralDuels extends JavaPlugin {
 
     public InventoryManager getInventoryManager() {
         return inventoryManager;
+    }
+
+    public KitManager getKitManager() {
+        return kitManager;
     }
 }

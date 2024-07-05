@@ -28,6 +28,7 @@ public class DuelAdminTabCompleter implements TabCompleter {
             if (sender.hasPermission("coralduels.admin.arena")) subcommands.add("arena");
             if (sender.hasPermission("coralduels.admin.wand")) subcommands.add("getarenawand");
             if (sender.hasPermission("coralduels.admin.stats")) subcommands.add("stats");
+            if (sender.hasPermission("coralduels.admin.kits")) subcommands.add("kits");
 
             return subcommands;
         }
@@ -53,7 +54,31 @@ public class DuelAdminTabCompleter implements TabCompleter {
             return subcommands;
         }
 
-        if (args.length == 3 && (args[1].equalsIgnoreCase("create") || args[1].equalsIgnoreCase("delete"))) {
+        if (args.length == 2 && args[0].equalsIgnoreCase("kits")) {
+            List<String> subcommands = new ArrayList<>();
+
+            subcommands.add("save");
+            subcommands.add("load");
+            subcommands.add("list");
+            subcommands.add("delete");
+
+            return subcommands;
+        }
+
+        if (args.length == 3 && (args[0].equalsIgnoreCase("kits") &&
+                (args[1].equalsIgnoreCase("save") || args[1].equalsIgnoreCase("delete")
+                        || args[1].equalsIgnoreCase("load")))) {
+
+            List<String> subcommands = new ArrayList<>();
+            for (String s : plugin.getKitManager().getKitList()) {
+                subcommands.add(s);
+            }
+
+            return subcommands;
+        }
+
+        if (args.length == 3 && (args[0].equalsIgnoreCase("arena") &&
+                (args[1].equalsIgnoreCase("create") || args[1].equalsIgnoreCase("delete")))) {
             List<String> subcommands = new ArrayList<>();
             for (Arena a : plugin.getArenaManager().getArenaList()) {
                 subcommands.add(a.getName());
@@ -62,11 +87,11 @@ public class DuelAdminTabCompleter implements TabCompleter {
             return subcommands;
         }
 
-        if (args.length == 3 &&
+        if (args.length == 3 && (args[0].equalsIgnoreCase("stats") &&
                 (args[1].equalsIgnoreCase("wins") ||
                         args[1].equalsIgnoreCase("deaths") ||
                         args[1].equalsIgnoreCase("kills") ||
-                        args[1].equalsIgnoreCase("games"))) {
+                        args[1].equalsIgnoreCase("games")))) {
 
 
             List<String> subcommands = new ArrayList<>();
@@ -81,14 +106,23 @@ public class DuelAdminTabCompleter implements TabCompleter {
 
         }
 
-        if (args.length == 4 &&
+        if (args.length == 4 && (args[0].equalsIgnoreCase("stats") &&
                 (args[1].equalsIgnoreCase("wins") ||
                         args[1].equalsIgnoreCase("deaths") ||
                         args[1].equalsIgnoreCase("kills") ||
-                        args[1].equalsIgnoreCase("games"))) {
+                        args[1].equalsIgnoreCase("games")))) {
 
 
             return null;
+        }
+
+        if (args.length == 4 && (args[0].equalsIgnoreCase("kits") && (args[1].equalsIgnoreCase("load")))) {
+
+            List<String> subcommands = new ArrayList<>();
+
+            subcommands.add("-c");
+
+            return subcommands;
         }
 
             return Collections.emptyList();
