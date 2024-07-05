@@ -7,11 +7,21 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class PapiHook extends PlaceholderExpansion {
     private final CoralDuels plugin;
+    private Set<String> modes;
 
     public PapiHook(CoralDuels plugin) {
         this.plugin = plugin;
+
+        this.modes = new HashSet<>();
+        modes.add("wins");
+        modes.add("deaths");
+        modes.add("kills");
+        modes.add("games");
     }
 
     @Override
@@ -72,60 +82,66 @@ public class PapiHook extends PlaceholderExpansion {
             }
         }
 
-        int topPos = getTopPos(params);
+        String[] args = params.split("_");
 
-        // DA OTTIMIZZARE
-
-        if(topPos > 0) {
-            if(params.contains("games")) {
-                if(params.contains("value")) {
-                    return plugin.getDataManager().getLeaderboardGamesCount(topPos);
-                } else if(params.contains("name")) {
-                    return plugin.getDataManager().getLeaderboardGamesPlayer(topPos);
-                }
-            }
-
-            if(params.contains("death")) {
-                if(params.contains("value")) {
-                    return plugin.getDataManager().getLeaderboardDeathsCount(topPos);
-                } else if(params.contains("name")) {
-                    return plugin.getDataManager().getLeaderboardDeathsPlayer(topPos);
-                }
-            }
-
-            if(params.contains("kills")) {
-                if(params.contains("value")) {
-                    return plugin.getDataManager().getLeaderboardKillsCount(topPos);
-                } else if(params.contains("name")) {
-                    return plugin.getDataManager().getLeaderboardKillsPlayer(topPos);
-                }
-            }
-
-            if(params.contains("wins")) {
-                if(params.contains("value")) {
-                    return plugin.getDataManager().getLeaderboardWinsCount(topPos);
-                } else if(params.contains("name")) {
-                    return plugin.getDataManager().getLeaderboardWinsPlayer(topPos);
-                }
-            }
+        if(args.length < 4) {
+            return null;
         }
+
+        if(!args[0].equalsIgnoreCase("top")) {
+            return null;
+        }
+
+        if(!Manager.isValidInteger(args[2])) {
+            return null;
+        }
+
+        int pos = Integer.parseInt(args[2]);
+
+        if(pos <= 0) {
+            return null;
+        }
+
+        String mode = args[1];
+
+        if(!modes.contains(mode)) {
+            return null;
+        }
+
+        String result = args[3];
+
+        if(!result.equalsIgnoreCase("name") && !result.equalsIgnoreCase("value")) {
+            return null;
+        }
+
+        switch (mode.toLowerCase()) {
+            case "wins":
+                if(result.equalsIgnoreCase("value")) {
+                    return plugin.getDataManager().getLeaderboardWinsCount(pos);
+                } else {
+                    return plugin.getDataManager().getLeaderboardWinsPlayer(pos);
+                }
+            case "games":
+                if(result.equalsIgnoreCase("value")) {
+                    return plugin.getDataManager().getLeaderboardGamesCount(pos);
+                } else {
+                    return plugin.getDataManager().getLeaderboardGamesPlayer(pos);
+                }
+            case "deaths":
+                if(result.equalsIgnoreCase("value")) {
+                    return plugin.getDataManager().getLeaderboardDeathsCount(pos);
+                } else {
+                    return plugin.getDataManager().getLeaderboardDeathsPlayer(pos);
+                }
+            case "kills":
+                if(result.equalsIgnoreCase("value")) {
+                    return plugin.getDataManager().getLeaderboardKillsCount(pos);
+                } else {
+                    return plugin.getDataManager().getLeaderboardKillsPlayer(pos);
+                }
+        }
+
 
         return null;
-    }
-
-    private static int getTopPos(String s) {
-        s = s.replace("top_", "")
-                .replace("_value", "")
-                .replace("_name", "")
-                .replace("games_", "")
-                .replace("kills_", "")
-                .replace("deaths_", "")
-                .replace("wins_", "");
-
-        if(Manager.isValidInteger(s)) {
-            return Integer.parseInt(s);
-        }
-
-        return -1;
     }
 }

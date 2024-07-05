@@ -22,6 +22,7 @@ error:
   already-in-duel: "&7[&c!&7] &r&c%player% è attualmente in un duello"
   blocked-command: "&7[&c!&7] &r&cNon puoi eseguire questo comando mentre sei in duello"
   unknown-arg: "&7[&c!&7] &r&cParametro Sconosciuto"
+  not-a-number: "&7[&c!&7] &r&cIl valore inserito non è un numero valido"
 
 admin:
   reload: "%prefix% &r&aPlugin ricaricato"

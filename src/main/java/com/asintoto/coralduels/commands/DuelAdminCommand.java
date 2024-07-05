@@ -165,7 +165,7 @@ public class DuelAdminCommand implements CommandExecutor {
 
         }
 
-        if (args.length >= 1 && args[0].equalsIgnoreCase("stats")){
+        if (args.length >= 1 && args[0].equalsIgnoreCase("stats")) {
             if (!sender.hasPermission("coralduels.admin.stats")) {
                 String msg = plugin.getMessages().getString("error.no-permission");
                 sender.sendMessage(Manager.formatMessage(msg));
@@ -197,7 +197,13 @@ public class DuelAdminCommand implements CommandExecutor {
             int amount = -1;
 
             if (!(args[2].equalsIgnoreCase("get") || args[2].equalsIgnoreCase("reset"))) {
-                amount = Integer.parseInt(args[4]);
+                try {
+                    amount = Integer.parseInt(args[4]);
+                } catch (NumberFormatException e) {
+                    String error = plugin.getMessages().getString("error.not-a-number");
+                    sender.sendMessage(Manager.formatMessage(error));
+                    return true;
+                }
                 if (amount < 0) amount = 0;
             }
 

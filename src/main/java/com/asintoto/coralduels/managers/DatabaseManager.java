@@ -563,7 +563,7 @@ public class DatabaseManager {
             preparedStatement.setInt(1, pos - 1);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                int wins = resultSet.getInt("deaths");
+                int wins = resultSet.getInt("wins");
                 if(wins == 0) {
                     return "--";
                 }
