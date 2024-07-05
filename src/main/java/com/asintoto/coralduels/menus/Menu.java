@@ -3,10 +3,17 @@ package com.asintoto.coralduels.menus;
 import com.asintoto.coralduels.CoralDuels;
 import com.asintoto.coralduels.managers.Manager;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Menu {
@@ -96,5 +103,43 @@ public abstract class Menu {
 
     public Player getHolder() {
         return holder;
+    }
+
+    protected ItemStack createCloseButton(String menuName) {
+
+        String path = "menus." + menuName + ".close-button";
+
+        Material material = Material.getMaterial(plugin.getMenus().getString(path + ".item"));
+
+        if(material == null) {
+            return new ItemStack(Material.STONE);
+        }
+
+        ItemStack item = new ItemStack(material);
+
+        ItemMeta meta = item.getItemMeta();
+
+        String name = plugin.getMenus().getString(path + ".display-name");
+        name = Manager.formatMessage(name);
+
+        meta.setDisplayName(name);
+
+        List<String> lore = new ArrayList<>();
+
+        for(String s : plugin.getMenus().getStringList(path + ".lore")) {
+            lore.add(Manager.formatMessage(s));
+        }
+
+
+        meta.setLore(lore);
+
+        if(plugin.getMenus().getBoolean(path + ".glow")) {
+            meta.addEnchant(Enchantment.DURABILITY, 1, true);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }
+
+        item.setItemMeta(meta);
+
+        return item;
     }
 }

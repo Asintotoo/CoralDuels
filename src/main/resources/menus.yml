@@ -2,6 +2,15 @@ menus:
   duel-request:
     title: "&8Richiesta di duello per %player%"
     size: 27
+    close-button:
+      slot: 22
+      item: "BARRIER"
+      display-name: "<SOLID:FF0000>&lCHIUDI"
+      lore:
+        - ""
+        - "&7Clicca qui per chiudere"
+        - ""
+      glow: false
     kits:
       default:
         slot: 11
