@@ -17,7 +17,7 @@ public class KitManager {
     public KitManager(CoralDuels plugin) {
         this.plugin = plugin;
 
-        kitsFile = new File(CoralDuels.getInstance().getDataFolder(), "kits.yml");
+        kitsFile = new File(CoralDuels.getInstance().getDataFolder(), YamlManager.SAVES_DIRECTORY + "kits.yml");
         if(!kitsFile.exists()) {
             try {
                 kitsFile.createNewFile();

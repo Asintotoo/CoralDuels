@@ -27,7 +27,7 @@ public class ArenaManager {
         this.plugin = plugin;
 
         arenaList = new HashSet<>();
-        arenaFile = new File(CoralDuels.getInstance().getDataFolder(), "arenas.yml");
+        arenaFile = new File(CoralDuels.getInstance().getDataFolder(), YamlManager.SAVES_DIRECTORY + "arenas.yml");
         if(!arenaFile.exists()) {
             try {
                 arenaFile.createNewFile();

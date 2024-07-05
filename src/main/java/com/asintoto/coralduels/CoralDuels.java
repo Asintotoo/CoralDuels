@@ -43,6 +43,11 @@ public final class CoralDuels extends JavaPlugin {
             dataFolder.mkdir();
         }
 
+        File savesFolder = new File(getDataFolder() + "/" + YamlManager.SAVES_DIRECTORY);
+        if (!savesFolder.exists()) {
+            savesFolder.mkdir();
+        }
+
         try {
             dataManager = new DatabaseManager(getDataFolder().getAbsolutePath() + "/" + YamlManager.DATA_DIRECTORY + "/storage.db");
             Debug.log("&aDatabase inizializzato");

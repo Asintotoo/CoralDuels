@@ -8,6 +8,7 @@ import java.io.File;
 public class YamlManager {
 
     public static final String DATA_DIRECTORY = "data/";
+    public static final String SAVES_DIRECTORY = "saves/";
 
     public static YamlConfiguration createYamlConfiguration(String filename) {
         File configFile = new File(CoralDuels.getInstance().getDataFolder(), filename);
