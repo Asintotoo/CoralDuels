@@ -77,7 +77,7 @@ public class RequestManager {
 
         requestsList.remove(r);
 
-        plugin.getGameManager().startDuel(sender, target);
+        plugin.getGameManager().startDuel(sender, target, r.getKitName());
 
     }
 }

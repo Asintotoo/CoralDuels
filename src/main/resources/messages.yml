@@ -24,6 +24,8 @@ error:
   unknown-arg: "&7[&c!&7] &r&cParametro Sconosciuto"
   not-a-number: "&7[&c!&7] &r&cIl valore inserito non è un numero valido"
   kit-not-existing: "&7[&c!&7] &r&cQuesto kit non esiste"
+  kit-locked: "&7[&c!&7] &r&cNon hai il permesso di usare questo kit"
+  no-kits: "&7[&c!&7] &r&cNon è disponibile alcun kit con cui giocare"
 
 admin:
   reload: "%prefix% &r&aPlugin ricaricato"
@@ -78,7 +80,6 @@ player:
     usage: "&c/duel <name>"
     accept-usage: "&c/duelaccept <name>"
     request-sent: "%prefix% &r&aHai inviato una richiesta di duello a &r&e%player%"
-    request-message: "%prefix% &r&e%sender% &r&ati ha inviato una richiesta di duello, clicca qui per accettare"
     request-hover-message: "&eClicca qui per accettare"
     request-expired-sender: "%prefix% &r&cLa tua richiesta di duello per %player% è scaduta"
     request-expired-target: "%prefix% &r&cLa tua richiesta di duello da parte di %player% è scaduta"
@@ -98,6 +99,16 @@ player:
       - "&aVincitore: &f%winner%"
       - "<SOLID:FF0000>Perdente: &f%loser%"
       - "&c&m                                             "
+    request-message:
+      - "&2&m                                             "
+      - "&2&lRichiesta di Duello"
+      - "&aInviata da: &f%player%"
+      - "<SOLID:FF0000>Kit: &f%kit%"
+      - "&2&m                                             "
+    request-message-accept: "&7&l[&r&a&lACCETTA&r&7&l]"
   countdown:
     numbers: "&c%number%"
     go: "&a&lVia!"
+  kits:
+    avaiable: "&aDisponibile"
+    not-avaiable: "&4Non Disponibile"

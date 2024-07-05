@@ -14,30 +14,38 @@ public class DuelRequest {
     private Player sender;
     private Player target;
     private BukkitTask task;
+    private String kitName;
+    private final CoralDuels plugin;
 
-    public DuelRequest(Player sender, Player target) {
+    public DuelRequest(Player sender, Player target, String kitName) {
         this.sender = sender;
         this.target = target;
+        this.kitName = kitName;
+        this.plugin = CoralDuels.getInstance();
 
         sendMessages();
 
-        CoralDuels.getInstance().getRequestManager().addRequest(this);
+        plugin.getRequestManager().addRequest(this);
 
         startTask();
     }
 
     private void sendMessages() {
-        String selfMsg = CoralDuels.getInstance().getMessages().getString("player.duel.request-sent")
+        String selfMsg = plugin.getMessages().getString("player.duel.request-sent")
                 .replace("%player%", target.getName());
 
         sender.sendMessage(Manager.formatMessage(selfMsg));
 
+        for(String s : plugin.getMessages().getStringList("player.duel.request-message")) {
+            target.sendMessage(Manager.formatMessage(s).replace("%player%", sender.getName()).replace("%kit%", kitName));
+        }
 
-        String msg = CoralDuels.getInstance().getMessages().getString("player.duel.request-message")
+
+        String msg = plugin.getMessages().getString("player.duel.request-message-accept")
                 .replace("%sender%", sender.getName());
 
         msg = Manager.formatMessage(msg);
-        String hoverMsg = Manager.formatMessage(CoralDuels.getInstance().getMessages()
+        String hoverMsg = Manager.formatMessage(plugin.getMessages()
                 .getString("player.duel.request-hover-message"));
 
         TextComponent message = new TextComponent(msg);
@@ -50,24 +58,24 @@ public class DuelRequest {
 
     private void startTask() {
 
-        int time = CoralDuels.getInstance().getConfig().getInt("duel.request-expire-time");
+        int time = plugin.getConfig().getInt("duel.request-expire-time");
         DuelRequest req = this;
 
         task = new BukkitRunnable() {
             @Override
             public void run() {
 
-                if(!CoralDuels.getInstance().getRequestManager().contains(req)) {
+                if(!plugin.getRequestManager().contains(req)) {
                     this.cancel();
                     return;
                 }
 
-                String toSender = CoralDuels.getInstance().getMessages().getString("player.duel.request-expired-sender")
+                String toSender = plugin.getMessages().getString("player.duel.request-expired-sender")
                         .replace("%player%", target.getName());
 
                 sender.sendMessage(Manager.formatMessage(toSender));
 
-                String toTarget = CoralDuels.getInstance().getMessages().getString("player.duel.request-expired-target")
+                String toTarget = plugin.getMessages().getString("player.duel.request-expired-target")
                         .replace("%player%", sender.getName());
 
                 target.sendMessage(Manager.formatMessage(toTarget));
@@ -75,7 +83,7 @@ public class DuelRequest {
                 CoralDuels.getInstance().getRequestManager().removeRequest(req);
 
             }
-        }.runTaskLater(CoralDuels.getInstance(), time * 20L);
+        }.runTaskLater(plugin, time * 20L);
     }
 
     public Player getSender() {
@@ -100,5 +108,13 @@ public class DuelRequest {
 
     public void setTask(BukkitTask task) {
         this.task = task;
+    }
+
+    public String getKitName() {
+        return kitName;
+    }
+
+    public void setKitName(String kitName) {
+        this.kitName = kitName;
     }
 }

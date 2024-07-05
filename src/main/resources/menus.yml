@@ -1,0 +1,25 @@
+menus:
+  duel-request:
+    title: "&8Richiesta di duello per %player%"
+    size: 27
+    kits:
+      default:
+        slot: 11
+        item: "IRON_SWORD"
+        display-name: "&7Kit di Default"
+        lore:
+          - ""
+          - "&7Kit semplice per"
+          - "&7iniziare a combattere"
+          - ""
+        glow: false
+      op:
+        slot: 15
+        item: "NETHERITE_SWORD"
+        display-name: "&dKit OP"
+        lore:
+          - ""
+          - "&7Kit avanzato per"
+          - "&7diventare il più forte"
+          - ""
+        glow: true

@@ -197,7 +197,7 @@ public class GameManager {
 
     }
 
-    public void startDuel(Player sender, Player target) {
+    public void startDuel(Player sender, Player target, String kitName) {
         String msg = plugin.getMessages().getString("player.duel.accept-sender")
                 .replace("%player%", target.getName());
 
@@ -254,8 +254,14 @@ public class GameManager {
         plugin.getInventoryManager().savePlayerInventory(sender);
         plugin.getInventoryManager().savePlayerInventory(target);
 
-        plugin.getInventoryManager().clearPlayerInventory(sender);
-        plugin.getInventoryManager().clearPlayerInventory(target);
+
+        if(!plugin.getKitManager().kitExist(kitName)) {
+            plugin.getInventoryManager().clearPlayerInventory(sender);
+            plugin.getInventoryManager().clearPlayerInventory(target);
+        } else {
+            plugin.getKitManager().loadKit(sender, kitName);
+            plugin.getKitManager().loadKit(target, kitName);
+        }
 
         a.teleport(sender, target);
         a.setHasPlayer(true);

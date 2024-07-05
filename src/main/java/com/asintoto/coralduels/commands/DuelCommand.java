@@ -3,6 +3,7 @@ package com.asintoto.coralduels.commands;
 import com.asintoto.coralduels.CoralDuels;
 import com.asintoto.coralduels.enums.PlayerStatus;
 import com.asintoto.coralduels.managers.Manager;
+import com.asintoto.coralduels.menus.impl.DuelRequestMenu;
 import com.asintoto.coralduels.utils.DuelRequest;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -34,6 +35,7 @@ public class DuelCommand implements CommandExecutor {
 
         if(args.length >= 1) {
             Player target = Bukkit.getPlayer(args[0]);
+            Player p = (Player) sender;
 
             if(target == null) {
                 String msg = plugin.getMessages().getString("error.player-offline");
@@ -62,7 +64,15 @@ public class DuelCommand implements CommandExecutor {
                 return true;
             }
 
-            new DuelRequest((Player) sender, target);
+            if(plugin.getKitManager().getKitList().isEmpty()) {
+                String msg = plugin.getMessages().getString("error.no-kits");
+                sender.sendMessage(Manager.formatMessage(msg));
+                return true;
+            }
+
+            DuelRequestMenu menu = new DuelRequestMenu(p, target);
+            menu.open();
+
             return true;
         }
 

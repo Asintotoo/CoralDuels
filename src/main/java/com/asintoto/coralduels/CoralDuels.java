@@ -6,6 +6,8 @@ import com.asintoto.coralduels.commands.DuelAdminCommand;
 import com.asintoto.coralduels.commands.DuelCommand;
 import com.asintoto.coralduels.hooks.PapiHook;
 import com.asintoto.coralduels.listeners.GameListener;
+import com.asintoto.coralduels.listeners.MenuClickListener;
+import com.asintoto.coralduels.listeners.MenuCloseListener;
 import com.asintoto.coralduels.listeners.WandClickListener;
 import com.asintoto.coralduels.managers.*;
 import com.asintoto.coralduels.tabcompleters.DuelAdminTabCompleter;
@@ -20,7 +22,6 @@ import java.sql.SQLException;
 public final class CoralDuels extends JavaPlugin {
 
     private YamlConfiguration messages;
-    private YamlConfiguration kits;
     private YamlConfiguration menus;
     private YamlConfiguration rewards;
     private String prefix;
@@ -32,6 +33,7 @@ public final class CoralDuels extends JavaPlugin {
     private GameManager gameManager;
     private InventoryManager inventoryManager;
     private KitManager kitManager;
+    private MenuManager menuManager;
 
     @Override
     public void onEnable() {
@@ -75,6 +77,8 @@ public final class CoralDuels extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new WandClickListener(this), this);
         getServer().getPluginManager().registerEvents(new GameListener(this), this);
+        getServer().getPluginManager().registerEvents(new MenuClickListener(this), this);
+        getServer().getPluginManager().registerEvents(new MenuCloseListener(this), this);
 
 
         Debug.log("&aEventi registrati");
@@ -85,6 +89,7 @@ public final class CoralDuels extends JavaPlugin {
         gameManager = new GameManager(this);
         inventoryManager = new InventoryManager(this);
         kitManager = new KitManager(this);
+        menuManager = new MenuManager(this);
 
         arenaManager.init();
 
@@ -177,5 +182,9 @@ public final class CoralDuels extends JavaPlugin {
 
     public KitManager getKitManager() {
         return kitManager;
+    }
+
+    public MenuManager getMenuManager() {
+        return menuManager;
     }
 }
