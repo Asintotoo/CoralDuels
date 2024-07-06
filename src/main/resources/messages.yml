@@ -40,6 +40,7 @@ admin:
     list: "&e%name%: &r%status%"
     avaiable: "&aAvaiable"
     not-avaiable: "&cNot Avaiable"
+    tp: "%prefix% &aSei stato teletrasportato all'arena &e%name%"
   stats:
     get:
       wins: "%prefix% &r&e%player% &r&aha &e%amount% &avittorie"

@@ -39,6 +39,7 @@ public class DuelAdminTabCompleter implements TabCompleter {
             subcommands.add("create");
             subcommands.add("delete");
             subcommands.add("list");
+            subcommands.add("tp");
 
             return subcommands;
         }
@@ -78,7 +79,8 @@ public class DuelAdminTabCompleter implements TabCompleter {
         }
 
         if (args.length == 3 && (args[0].equalsIgnoreCase("arena") &&
-                (args[1].equalsIgnoreCase("create") || args[1].equalsIgnoreCase("delete")))) {
+                (args[1].equalsIgnoreCase("create") || args[1].equalsIgnoreCase("delete")
+                        || args[1].equalsIgnoreCase("tp")))) {
             List<String> subcommands = new ArrayList<>();
             for (Arena a : plugin.getArenaManager().getArenaList()) {
                 subcommands.add(a.getName());

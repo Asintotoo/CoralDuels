@@ -223,6 +223,32 @@ public class DuelAdminCommand implements CommandExecutor {
                 return true;
             }
 
+            if (args[1].equalsIgnoreCase("tp")) {
+                if (!(sender instanceof Player)) {
+                    String msg = plugin.getMessages().getString("error.not-a-player");
+                    sender.sendMessage(Manager.formatMessage(msg));
+                    return true;
+                }
+
+                Player p = (Player) sender;
+
+                String name = args[2];
+
+                Arena a = plugin.getArenaManager().getArena(name);
+
+                if(a == null) {
+                    String msg = plugin.getMessages().getString("error.arena-not-existing");
+                    sender.sendMessage(Manager.formatMessage(msg));
+                    return true;
+                }
+
+                p.teleport(a.getLoc1());
+
+                String msg = plugin.getMessages().getString("admin.arena.tp").replace("%name%", name);
+                sender.sendMessage(Manager.formatMessage(msg));
+                return true;
+            }
+
             if (args[1].equalsIgnoreCase("list")) {
 
                 String avaiable = plugin.getMessages().getString("admin.arena.avaiable");
