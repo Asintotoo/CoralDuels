@@ -157,10 +157,10 @@ public class GameListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
-        if(!plugin.getInventoryManager().getLeftPlayers().contains(p.getUniqueId().toString())) {
+        if(!plugin.getOfflinePlayerRestorer().playerExists(p)) {
             return;
         }
 
-        plugin.getInventoryManager().restorePlayerLeft(p);
+        plugin.getOfflinePlayerRestorer().loadPlayer(p);
     }
 }

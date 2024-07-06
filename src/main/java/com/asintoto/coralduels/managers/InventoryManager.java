@@ -5,6 +5,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -14,13 +15,6 @@ import java.util.Set;
 
 public class InventoryManager {
     private final CoralDuels plugin;
-
-    private Set<String> leftPlayers = new HashSet<>();
-
-    private Map<String, ItemStack[]> leftInventory = new HashMap<>();
-    private Map<String, ItemStack[]> leftArmor = new HashMap<>();
-    private Map<String, Location> leftLocation = new HashMap<>();
-    private Map<String, GameMode> leftGamemode = new HashMap<>();
 
     private Map<Player, ItemStack[]> savedInventories = new HashMap<>();
     private Map<Player, ItemStack[]> savedArmorContents = new HashMap<>();
@@ -53,57 +47,27 @@ public class InventoryManager {
 
     public void addPlayerLeft(Player p) {
 
-        leftPlayers.add(p.getUniqueId().toString());
+        String uuid = p.getUniqueId().toString();
+
+        ItemStack[] content = null;
+        Location loc = null;
+        GameMode gm = null;
 
         if(savedInventories.containsKey(p)) {
-            leftInventory.put(p.getUniqueId().toString(), savedInventories.get(p));
+            content = savedInventories.get(p);
             savedInventories.remove(p);
-        }
-        if(savedArmorContents.containsKey(p)) {
-            leftArmor.put(p.getUniqueId().toString(), savedArmorContents.get(p));
-            savedArmorContents.remove(p);
         }
 
         if(plugin.getGameManager().getPlayerLocationMap().containsKey(p)) {
-            leftLocation.put(p.getUniqueId().toString(), plugin.getGameManager().getPlayerLocationMap().get(p));
+            loc = plugin.getGameManager().getPlayerLocationMap().get(p);
             plugin.getGameManager().getPlayerLocationMap().remove(p);
         }
 
         if(plugin.getGameManager().getGameModeMap().containsKey(p)) {
-            leftGamemode.put(p.getUniqueId().toString(), plugin.getGameManager().getGameModeMap().get(p));
+            gm = plugin.getGameManager().getGameModeMap().get(p);
             plugin.getGameManager().getGameModeMap().remove(p);
         }
-    }
 
-    public void restorePlayerLeft(Player p) {
-        String uuid = p.getUniqueId().toString();
-
-        if(leftInventory.containsKey(uuid)) {
-            p.getInventory().setContents(leftInventory.get(uuid));
-            leftInventory.remove(uuid);
-        }
-
-        if(leftArmor.containsKey(uuid)) {
-            p.getInventory().setArmorContents(leftArmor.get(uuid));
-            leftArmor.remove(uuid);
-        }
-
-        if(leftLocation.containsKey(uuid)) {
-            p.teleport(leftLocation.get(uuid));
-            leftLocation.remove(uuid);
-        }
-
-        if(leftGamemode.containsKey(uuid)) {
-            p.setGameMode(leftGamemode.get(uuid));
-            leftGamemode.remove(uuid);
-        } else {
-            p.setGameMode(GameMode.SURVIVAL);
-        }
-
-        leftPlayers.remove(p);
-    }
-
-    public Set<String> getLeftPlayers() {
-        return leftPlayers;
+        plugin.getOfflinePlayerRestorer().savePlayer(p, loc, gm, content);
     }
 }

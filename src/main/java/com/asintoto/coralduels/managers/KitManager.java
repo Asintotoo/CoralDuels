@@ -17,7 +17,7 @@ public class KitManager {
     public KitManager(CoralDuels plugin) {
         this.plugin = plugin;
 
-        kitsFile = new File(CoralDuels.getInstance().getDataFolder(), YamlManager.SAVES_DIRECTORY + "kits.yml");
+        kitsFile = new File(plugin.getDataFolder(), YamlManager.SAVES_DIRECTORY + "kits.yml");
         if(!kitsFile.exists()) {
             try {
                 kitsFile.createNewFile();
@@ -59,10 +59,15 @@ public class KitManager {
     }
 
     public boolean kitExist(String kitName) {
+        kits = YamlConfiguration.loadConfiguration(kitsFile);
+
         return kits.contains(kitName);
     }
 
     public void saveKit(Player p, String kitName) {
+
+        kits = YamlConfiguration.loadConfiguration(kitsFile);
+
         Map<String, Object> kitMap = new HashMap<>();
 
         ItemStack[] contents = p.getInventory().getContents();
@@ -80,11 +85,13 @@ public class KitManager {
     }
 
     public void loadKit(Player p, String kitName) {
+
+        kits = YamlConfiguration.loadConfiguration(kitsFile);
+
         if(!kitExist(kitName)) {
             return;
         }
 
-        kits = YamlConfiguration.loadConfiguration(kitsFile);
 
         ItemStack[] content = ((List<ItemStack>) kits.getList(kitName + ".content")).toArray(new ItemStack[0]);
 

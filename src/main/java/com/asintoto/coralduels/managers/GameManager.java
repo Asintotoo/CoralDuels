@@ -134,8 +134,6 @@ public class GameManager {
         msg = plugin.getMessages().getString("player.duel.duel-lost").replace("%player%", winner.getName());
         loser.sendMessage(Manager.formatMessage(msg));
 
-        g.getArena().setHasPlayer(false);
-
 
         List<String> msgs = plugin.getMessages().getStringList("player.duel.duel-end");
         for(String s : msgs) {
@@ -152,46 +150,7 @@ public class GameManager {
             @Override
             public void run() {
 
-                if(plugin.getConfig().getBoolean("duel.teleport.teleport-back")) {
-                    if(playerLocationMap.containsKey(winner)) {
-                        winner.teleport(playerLocationMap.get(winner));
-                        playerLocationMap.remove(winner);
-                    }
-                    if(playerLocationMap.containsKey(loser)) {
-                        loser.teleport(playerLocationMap.get(loser));
-                        playerLocationMap.remove(loser);
-                    }
-                } else {
-                    double x = plugin.getConfig().getDouble("duel.teleport.teleport-location.x");
-                    double y = plugin.getConfig().getDouble("duel.teleport.teleport-location.y");
-                    double z = plugin.getConfig().getDouble("duel.teleport.teleport-location.z");
-                    World w = Bukkit.getWorld(plugin.getConfig().getString("duel.teleport.teleport-location.world"));
-                    double pitch = plugin.getConfig().getDouble("duel.teleport.teleport-location.pitch");
-                    double yaw = plugin.getConfig().getDouble("duel.teleport.teleport-location.yaw");
-
-                    if(w != null) {
-                        Location loc = new Location(w, x, y, z, (float) yaw, (float) pitch);
-                        winner.teleport(loc);
-                        loser.teleport(loc);
-                    }
-                }
-
-                if(plugin.getConfig().getBoolean("duel.gamemode-settings.set-prev-gamemode-when-end")) {
-                    if(gameModeMap.containsKey(winner)) {
-                        winner.setGameMode(gameModeMap.get(winner));
-                        gameModeMap.remove(winner);
-                    }
-
-                    if(gameModeMap.containsKey(loser)) {
-                        loser.setGameMode(gameModeMap.get(loser));
-                        gameModeMap.remove(loser);
-                    }
-                }
-
-                plugin.getInventoryManager().restorePlayerInventory(winner);
-                plugin.getInventoryManager().restorePlayerInventory(loser);
-
-                plugin.getRewardProcessor().reward(winner);
+                endLogic(winner, loser, g);
 
             }
         }.runTaskLater(plugin, 3 * 20L);
@@ -285,6 +244,60 @@ public class GameManager {
         }
 
         gameCountdown(sender, target);
+    }
+
+    private void endLogic(Player winner, Player loser, Game g) {
+
+        g.getArena().setHasPlayer(false);
+
+        endPlayer(winner);
+        endPlayer(loser);
+
+        plugin.getRewardProcessor().reward(winner);
+    }
+
+    private void endPlayer(Player p) {
+        if(plugin.getConfig().getBoolean("duel.teleport.teleport-back")) {
+            if(playerLocationMap.containsKey(p)) {
+                p.teleport(playerLocationMap.get(p));
+                playerLocationMap.remove(p);
+            }
+        } else {
+            double x = plugin.getConfig().getDouble("duel.teleport.teleport-location.x");
+            double y = plugin.getConfig().getDouble("duel.teleport.teleport-location.y");
+            double z = plugin.getConfig().getDouble("duel.teleport.teleport-location.z");
+            World w = Bukkit.getWorld(plugin.getConfig().getString("duel.teleport.teleport-location.world"));
+            double pitch = plugin.getConfig().getDouble("duel.teleport.teleport-location.pitch");
+            double yaw = plugin.getConfig().getDouble("duel.teleport.teleport-location.yaw");
+
+            if(w != null) {
+                Location loc = new Location(w, x, y, z, (float) yaw, (float) pitch);
+                p.teleport(loc);
+            }
+        }
+
+        if(plugin.getConfig().getBoolean("duel.gamemode-settings.set-prev-gamemode-when-end")) {
+            if(gameModeMap.containsKey(p)) {
+                p.setGameMode(gameModeMap.get(p));
+                gameModeMap.remove(p);
+            }
+        }
+
+        plugin.getInventoryManager().restorePlayerInventory(p);
+    }
+
+    public void shutdown() {
+        for(Player p : Bukkit.getOnlinePlayers()) {
+            if(isPlayerInGame(p)) {
+                endPlayer(p);
+            }
+        }
+
+        for(Arena a : plugin.getArenaManager().getArenaList()) {
+            if(a.hasPlayer()) {
+                a.setHasPlayer(false);
+            }
+        }
     }
 
 

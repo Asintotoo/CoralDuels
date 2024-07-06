@@ -40,6 +40,7 @@ public final class CoralDuels extends JavaPlugin {
 
     private Economy econ = null;
     private RewardProcessor rewardProcessor;
+    private OfflinePlayerRestorer offlinePlayerRestorer;
 
     @Override
     public void onEnable() {
@@ -104,6 +105,7 @@ public final class CoralDuels extends JavaPlugin {
         menuManager = new MenuManager(this);
 
         rewardProcessor = new RewardProcessor(this);
+        offlinePlayerRestorer = new OfflinePlayerRestorer(this);
 
         arenaManager.init();
 
@@ -123,6 +125,7 @@ public final class CoralDuels extends JavaPlugin {
             e.printStackTrace();
         }
 
+        gameManager.shutdown();
         arenaManager.term();
 
         String msg = messages.getString("system.on-disable");
@@ -188,6 +191,10 @@ public final class CoralDuels extends JavaPlugin {
 
     public RewardProcessor getRewardProcessor() {
         return rewardProcessor;
+    }
+
+    public OfflinePlayerRestorer getOfflinePlayerRestorer() {
+        return offlinePlayerRestorer;
     }
 
     public static CoralDuels getInstance() {
