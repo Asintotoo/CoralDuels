@@ -59,7 +59,7 @@ public class DuelAcceptCommand implements CommandExecutor {
             return true;
         }
 
-        String msg = plugin.getMessages().getString("player.duel.accpet-usage");
+        String msg = plugin.getMessages().getString("player.duel.accept-usage");
         sender.sendMessage(Manager.formatMessage(msg));
         return true;
     }

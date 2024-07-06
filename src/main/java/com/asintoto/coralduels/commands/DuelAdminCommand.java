@@ -49,6 +49,12 @@ public class DuelAdminCommand implements CommandExecutor {
                 return true;
             }
 
+            if (args.length < 2) {
+                String msg = plugin.getMessages().getString("error.not-enough-args");
+                sender.sendMessage(Manager.formatMessage(msg));
+                return true;
+            }
+
             if (args.length < 3 && !args[1].equalsIgnoreCase("list")) {
                 String msg = plugin.getMessages().getString("error.not-enough-args");
                 sender.sendMessage(Manager.formatMessage(msg));
@@ -158,6 +164,12 @@ public class DuelAdminCommand implements CommandExecutor {
         if (args.length >= 1 && args[0].equalsIgnoreCase("arena")) {
             if (!sender.hasPermission("coralduels.admin.arena")) {
                 String msg = plugin.getMessages().getString("error.no-permission");
+                sender.sendMessage(Manager.formatMessage(msg));
+                return true;
+            }
+
+            if (args.length < 2) {
+                String msg = plugin.getMessages().getString("error.not-enough-args");
                 sender.sendMessage(Manager.formatMessage(msg));
                 return true;
             }
