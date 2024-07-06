@@ -73,9 +73,7 @@ public final class CoralDuels extends JavaPlugin {
         }
 
         if (!this.setupEconomy()) {
-            this.getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", this.getDescription().getName()));
-            this.getServer().getPluginManager().disablePlugin(this);
-            return;
+            this.getLogger().severe(String.format("[%s] - No Vault dependency found! Some rewards might not work", this.getDescription().getName()));
         }
 
         getCommand("dueladmin").setExecutor(new DuelAdminCommand(this));
