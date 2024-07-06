@@ -7,6 +7,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.*;
 
 public class KitManager {
@@ -19,8 +21,14 @@ public class KitManager {
 
         kitsFile = new File(plugin.getDataFolder(), YamlManager.SAVES_DIRECTORY + "kits.yml");
         if(!kitsFile.exists()) {
-            try {
-                kitsFile.createNewFile();
+            try (InputStream in = plugin.getResource("saves/kits.yml")) {
+                if (in == null) {
+                    kitsFile.createNewFile();
+                    return;
+                }
+
+                Files.copy(in, kitsFile.toPath());
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

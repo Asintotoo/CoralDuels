@@ -35,7 +35,7 @@ public class OfflinePlayerRestorer {
         offlinePlayers = YamlConfiguration.loadConfiguration(offlinePlayersFile);
     }
 
-    public void savePlayer(Player p, Location loc, GameMode gm, ItemStack[] inv) {
+    public void savePlayer(Player p, Location loc, GameMode gm, ItemStack[] inv, int lvl, float points) {
 
         offlinePlayers = YamlConfiguration.loadConfiguration(offlinePlayersFile);
 
@@ -44,6 +44,8 @@ public class OfflinePlayerRestorer {
         offlinePlayers.set(uuid + ".inventory", inv);
         offlinePlayers.set(uuid + ".location", loc);
         offlinePlayers.set(uuid + ".gamemode", gm.toString());
+        offlinePlayers.set(uuid + ".xp.levels", lvl);
+        offlinePlayers.set(uuid + ".xp.points", points);
 
         try {
             offlinePlayers.save(offlinePlayersFile);
@@ -66,6 +68,12 @@ public class OfflinePlayerRestorer {
 
         Location loc = (Location) offlinePlayers.get(uuid + ".location");
         GameMode gm = GameMode.valueOf(offlinePlayers.getString(uuid + ".gamemode"));
+
+        int lvl = offlinePlayers.getInt(uuid + ".xp.levels");
+        double points = offlinePlayers.getDouble(uuid + ".xp.points");
+
+        p.setLevel(lvl);
+        p.setExp((float) points);
 
         if(content != null) p.getInventory().setContents(content);
 

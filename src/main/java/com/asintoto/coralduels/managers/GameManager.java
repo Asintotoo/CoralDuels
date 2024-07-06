@@ -19,6 +19,8 @@ public class GameManager {
     private Map<Player, GameMode> gameModeMap;
     private Map<Player, Location> playerLocationMap;
     private Map<Player, Location> deathLocationMap;
+    private Map<Player, Float> experienceMap;
+    private Map<Player, Integer> experienceLevelMap;
 
     public GameManager(CoralDuels plugin) {
         this.plugin = plugin;
@@ -27,6 +29,9 @@ public class GameManager {
         this.gameModeMap = new HashMap<>();
         this.playerLocationMap = new HashMap<>();
         this.deathLocationMap = new HashMap<>();
+        this.experienceMap = new HashMap<>();
+        this.experienceLevelMap = new HashMap<>();
+
     }
 
     public Map<Player, GameMode> getGameModeMap() {
@@ -35,6 +40,14 @@ public class GameManager {
 
     public Map<Player, Location> getPlayerLocationMap() {
         return playerLocationMap;
+    }
+
+    public Map<Player, Float> getExperienceMap() {
+        return experienceMap;
+    }
+
+    public Map<Player, Integer> getExperienceLevelMap() {
+        return experienceLevelMap;
     }
 
     public PlayerStatus getPlayerStatus(Player p) {
@@ -212,6 +225,33 @@ public class GameManager {
             playerLocationMap.put(target, target.getLocation());
         }
 
+        if(plugin.getConfig().getBoolean("duel.store-xp")) {
+
+            experienceMap.put(sender, sender.getExp());
+            experienceMap.put(target, target.getExp());
+
+            sender.setExp(0);
+            target.setExp(0);
+
+            experienceLevelMap.put(sender, sender.getLevel());
+            experienceLevelMap.put(target, target.getLevel());
+
+            sender.setLevel(0);
+            target.setLevel(0);
+        }
+
+        if(plugin.getConfig().getBoolean("duel.heal-on-start")) {
+
+            sender.setHealth(20);
+            target.setHealth(20);
+
+            sender.setFoodLevel(20);
+            target.setFoodLevel(20);
+
+            sender.setSaturation(20.0f);
+            target.setSaturation(20.0f);
+        }
+
         plugin.getInventoryManager().savePlayerInventory(sender);
         plugin.getInventoryManager().savePlayerInventory(target);
 
@@ -280,6 +320,16 @@ public class GameManager {
             if(gameModeMap.containsKey(p)) {
                 p.setGameMode(gameModeMap.get(p));
                 gameModeMap.remove(p);
+            }
+        }
+
+        if(plugin.getConfig().getBoolean("duel.store-xp")) {
+            if(experienceMap.containsKey(p)) {
+                p.setExp(experienceMap.get(p));
+            }
+
+            if(experienceLevelMap.containsKey(p)) {
+                p.setLevel(experienceLevelMap.get(p));
             }
         }
 

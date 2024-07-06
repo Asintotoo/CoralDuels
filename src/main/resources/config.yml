@@ -29,6 +29,8 @@ duel:
   allow-block-destruction: false
   allow-block-placement: false
   countdown-duration: 3
+  store-xp: true
+  heal-on-start: true
   gamemode-settings:
     change-gamemode: true
     gamemode: "SURVIVAL"

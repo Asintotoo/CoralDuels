@@ -5,13 +5,10 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class InventoryManager {
     private final CoralDuels plugin;
@@ -52,6 +49,8 @@ public class InventoryManager {
         ItemStack[] content = null;
         Location loc = null;
         GameMode gm = null;
+        int lvl = 0;
+        float points = 0;
 
         if(savedInventories.containsKey(p)) {
             content = savedInventories.get(p);
@@ -68,6 +67,16 @@ public class InventoryManager {
             plugin.getGameManager().getGameModeMap().remove(p);
         }
 
-        plugin.getOfflinePlayerRestorer().savePlayer(p, loc, gm, content);
+        if(plugin.getGameManager().getExperienceLevelMap().containsKey(p)) {
+            lvl = plugin.getGameManager().getExperienceLevelMap().get(p);
+            plugin.getGameManager().getExperienceLevelMap().remove(p);
+        }
+
+        if(plugin.getGameManager().getExperienceMap().containsKey(p)) {
+            points = plugin.getGameManager().getExperienceMap().get(p);
+            plugin.getGameManager().getExperienceMap().remove(p);
+        }
+
+        plugin.getOfflinePlayerRestorer().savePlayer(p, loc, gm, content, lvl, points);
     }
 }
